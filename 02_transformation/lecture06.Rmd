@@ -3,7 +3,7 @@ title: 'Lecture 6'
 subtitle: 'Data wrangling: summaries and grouping'
 output:
   xaringan::moon_reader:
-    css: [default, default-fonts, "custom.css"]
+    css: [default, default-fonts, "../custom.css"]
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"
     nature:
       highlightStyle: tomorrow
@@ -14,7 +14,7 @@ output:
         <div class="progress-bar-container">
           <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
           </div>
-        </div>`
+        </div>
 editor_options:
   chunk_output_type: console
 ---
@@ -501,7 +501,7 @@ class: middle, inverse
 Forest and Bird, who run Bird of the Year every year published all the votes from last year's contest.
 
 ```{r, echo=FALSE}
-boty <- read_csv(here::here("stories/boty2019/BOTY-votes-2019.csv"),
+boty <- read_csv(here::here("data/boty/BOTY-votes-2019.csv"),
                  col_types = cols(country = "c"))
 ```
 

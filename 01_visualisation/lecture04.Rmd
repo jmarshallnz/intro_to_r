@@ -3,7 +3,7 @@ title: 'Lecture 4'
 subtitle: 'Relationships between quantitative and qualitative data'
 output:
   xaringan::moon_reader:
-    css: [default, default-fonts, "custom.css"]
+    css: [default, default-fonts, "../custom.css"]
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"
     nature:
       highlightStyle: tomorrow
@@ -14,7 +14,7 @@ output:
         <div class="progress-bar-container">
           <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
           </div>
-        </div>`
+        </div>
 editor_options:
   chunk_output_type: console
 ---
@@ -61,7 +61,7 @@ We have the number of 2 year olds immunised in 2012 and 2019 by ethnicity:
 
 ```{r, include=FALSE}
 library(lubridate)
-all_vacc <- read_csv(here::here("data/vaccinations.csv")) %>%
+all_vacc <- read_csv(here::here("data/vaccinations_all.csv")) %>%
   filter(DHB == "National") %>%
   mutate(Year = year(Date)) %>%
   filter(Year %in% c(2012, 2019)) %>%
