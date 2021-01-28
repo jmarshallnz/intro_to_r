@@ -1,6 +1,6 @@
 ---
 title: 'Lecture 1'
-subtitle: 'Welcome to Statistics: Charts'
+subtitle: 'Visualisation'
 output:
   xaringan::moon_reader:
     css: [default, default-fonts, "../custom.css"]
@@ -291,7 +291,7 @@ Alter the code in `ggplot01.R` to colour by species.
 
 .left-code[
 ## Remember the Recipe!
-```{r peng2, eval=FALSE}
+```{r peng2b, eval=FALSE}
 ggplot(data = penguins) + #<<
   geom_point(
     mapping = aes(
@@ -304,7 +304,7 @@ Tell `ggplot` what data we want to plot.
 ]
 
 .right-plot[
-```{r ref.label="peng2", echo=FALSE}
+```{r ref.label="peng2b", echo=FALSE}
 ```
 ]
 
@@ -312,7 +312,7 @@ Tell `ggplot` what data we want to plot.
 
 .left-code[
 ## Remember the Recipe!
-```{r peng3, eval=FALSE}
+```{r peng3b, eval=FALSE}
 ggplot(data = penguins) +
   geom_point( #<<
     mapping = aes(
@@ -325,7 +325,7 @@ Choose the type of chart we want.
 ]
 
 .right-plot[
-```{r ref.label="peng3", echo=FALSE}
+```{r ref.label="peng3b", echo=FALSE}
 ```
 ]
 
@@ -333,7 +333,7 @@ Choose the type of chart we want.
 
 .left-code[
 ## Remember the Recipe!
-```{r peng4, eval=FALSE}
+```{r peng4b, eval=FALSE}
 ggplot(data = penguins) +
   geom_point(
     mapping = aes( #<<
@@ -347,7 +347,7 @@ Map plot features to data features.
 ]
 
 .right-plot[
-```{r ref.label="peng4", echo=FALSE}
+```{r ref.label="peng4b", echo=FALSE}
 ```
 ]
 
@@ -438,7 +438,7 @@ This is like adding a new column, and setting every entry to `purple`, so you ha
 
 .left-code[
 ## Mapping colour to data
-```{r peng7, eval=FALSE}
+```{r peng7b, eval=FALSE}
 ggplot(data = penguins) +
   geom_point(
     mapping = aes(
@@ -453,7 +453,7 @@ To **map to a column of data** place inside the `aes()` function.
 ]
 
 .right-plot[
-```{r, ref.label="peng7", echo=FALSE}
+```{r, ref.label="peng7b", echo=FALSE}
 ```
 ]
 
@@ -1411,7 +1411,7 @@ vs what to do after a test).
 
 ---
 
-class: middle, inverse
+class: middle
 
 # Small multiple plots
 
@@ -1419,33 +1419,24 @@ class: middle, inverse
 
 ## Small multiple plots
 
-With `dplyr` we can use `group_by()` to do summarising and filtering by subgroups of the data.
-
-We can do the same thing when we produce plots with `ggplot2`.
+We can subset the data and produce plots of each subset simultaenously with **faceting**.
 
 The idea is that often we want to see trends or patterns between some variables, but often those trends
 or patterns may vary by subgroup.
 
-In that case we might want to plot them separately for each subgroup so
-we can compare and contrast.
+In that case we might want to plot them separately for each subgroup so we can compare and contrast.
 
 ---
 
 ## Small multiple plots
 
-One way to do this is to use `dplyr` to filter down to the subgroup that we want to compare and then
-produce separate plots.
+One way to do this is to filter a set of data down to subgroups and then plot each subgroup separately.
 
 e.g. suppose we want to compare two sites on the Manawatu river for their E.coli counts over time. The river at Site80 (down by Waitoetoe park, opposite where the Turitea Stream comes out) and the river at Site15 (by the old teacher's college in Hokowhitu):
 
 ```{r}
-waitoetoe <- hrc %>%
-  filter(Site == "manawatu at u/s pncc stp") %>%
-  select(Site, Date, Value)
-
-hokowhitu <- hrc %>%
-  filter(Site == "manawatu at teachers college") %>%
-  select(Site, Date, Value)
+waitoetoe = filter(hrc, Site == "manawatu at u/s pncc stp")
+hokowhitu = filter(hrc, Site == "manawatu at teachers college")
 ```
 
 ---
@@ -1454,17 +1445,17 @@ hokowhitu <- hrc %>%
 
 .pull-left[
 ```{r}
-waitoetoe %>%
-  summarise(Median = median(Value),
-            Max = max(Value))
+summarise(waitoetoe,
+          Median = median(Value),
+          Max = max(Value))
 ```
 ]
 
 .pull-right[
 ```{r}
-hokowhitu %>%
-  summarise(Median = median(Value),
-            Max = max(Value))
+summarise(hokowhitu,
+          Median = median(Value),
+          Max = max(Value))
 ```
 ]
 
@@ -1536,14 +1527,9 @@ ggplot(data=hokowhitu) +
 
 The better way to do it is to combine the two datasets and let `ggplot2` split out the two groups for us when it creates the plot.
 
-Essentially we work the same way as we would with `dplyr` to summarise: leave the data in a single data.frame.
-
 ```{r}
-two_sites <- hrc %>%
-  filter(Site %in% c("manawatu at u/s pncc stp", "manawatu at teachers college"))
-
-two_sites %>% group_by(Site) %>%
-  summarise(Median = median(Value), Max = max(Value))
+two_sites =
+  filter(hrc, Site %in% c("manawatu at u/s pncc stp", "manawatu at teachers college"))
 ```
 
 ---
@@ -1562,7 +1548,7 @@ ggplot(data=two_sites) +
   )
 ```
 
-We could use colour to distinguish the sites
+We could use colour to distinguish the sites.
 ]
 
 .right-plot[
@@ -1634,16 +1620,12 @@ We can now easily generalise to more plots. e.g. what is happening with the turi
 Unfortunately this was measured only since 2013, but nonetheless might be interesting
 
 ```{r}
-three_sites <- hrc %>% filter(
+three_sites = filter(hrc,
   Site %in% c("manawatu at u/s pncc stp",
               "manawatu at teachers college",
               "turitea at no1 dairy")
 )
-three_sites %>% group_by(Site) %>%
-  summarise(Median = median(Value), Max = max(Value))
 ```
-
-A higher median but lower maximum.
 
 ---
 
@@ -1712,114 +1694,16 @@ But is harder to assess overall levels.
 
 ---
 
-.left-code[
-## Combining plots
+class: inverse
 
-```{r peng1, eval=FALSE}
-ggplot(penguins) + 
-  geom_density(aes(x=body_mass_g),
-               fill='light blue') +
-  facet_grid( #<<
-    rows = vars(sex), #<<
-    cols = vars(species) #<<
-  ) #<<
-```
+## Code along
 
-If we have two variables that we'd like to use to split the data, we can use a grid
-of small plots, with rows representing one variable and columns the other.
+Open up `ggplot5.R` which has a density plot of the body mass of penguins.
 
-The `NA` for `sex` though is a bit odd!
-]
+Let's alter it to split out by species or sex using `facet_wrap`.
 
-.right-plot[
-```{r, ref.label="peng1", echo=FALSE, message=FALSE}
-```
-]
-
----
-
-.left-code[
-## Combining plots
-
-```{r peng2, eval=FALSE}
-penguins %>% #<<
-  filter(!is.na(sex)) %>% #<<
-ggplot() + 
-  geom_density(aes(x=body_mass_g),
-               fill='light blue') +
-  facet_grid(
-    rows = vars(sex),
-    cols = vars(species)
-  )
-```
-
-For densities, where the `x` axis is our comparator, we can
-easily assess down columns.
-
-i.e. Males are heavier than females for each species, less pronounced in Chinstrap?
-]
-
-.right-plot[
-```{r, ref.label="peng2", echo=FALSE}
-```
-]
-
----
-
-.left-code[
-## Combining plots
-
-```{r peng3, eval=FALSE}
-penguins %>% #<<
-  filter(!is.na(sex)) %>% #<<
-ggplot() + 
-  geom_density(aes(x=body_mass_g),
-               fill='light blue') +
-  facet_grid(
-    rows = vars(species), #<<
-    cols = vars(sex) #<<
-  )
-```
-
-For densities, where the `x` axis is our comparator, we can
-easily assess down columns.
-
-Switching roles of variables means we can easily compare within
-males and females separately.
-
-e.g. we see that male Adelie and Chinstraps have similar weight distributions,
-while females differ.
-]
-
-.right-plot[
-```{r, ref.label="peng3", echo=FALSE}
-```
-]
-
----
-
-.left-code[
-## Combining plots
-
-```{r peng4, eval=FALSE}
-penguins %>% #<<
-  filter(!is.na(sex)) %>% #<<
-ggplot() + 
-  geom_density(aes(x=body_mass_g,
-                   fill=species),
-               alpha=0.5) + #<<
-  facet_wrap(vars(sex), #<<
-             ncol=1) #<<
-```
-
-In this example the small number of groups allows overlapping
-densities to be a little better perhaps.
-]
-
-.right-plot[
-```{r, ref.label="peng4", echo=FALSE}
-```
-]
+We'll also try `facet_grid` which gives a grid of plots, where columns are one variable
+and rows are another.
 
 ---
 
@@ -1829,7 +1713,9 @@ Sometimes we want to combine different types of plot. e.g. perhaps we want
 to compare the body mass distribution of penguins as well as show the correlation
 between bill length and depth.
 
-We can do the separate plots and can combine them using the `patchwork` library
+We can do the separate plots and can combine them using the `patchwork` library.
+
+(You may have to install the `patchwork` library via the Packages menu)
 
 ---
 
@@ -1943,3 +1829,13 @@ g0 = ggplot(penguins) + geom_density(aes(x=flipper_length_mm, fill=species), alp
 (g0 / g1 | g2) + plot_layout(guides = 'collect') +
   plot_annotation(title = "Gentoo penguins are chonky and have long, narrow beaks")
 ```
+
+---
+
+class: inverse
+
+## Try yourself!
+
+Load up `ggplot06.R` which has the above graph and try changing things around.
+
+Then have a go at `exercises02.R`.
