@@ -1,5 +1,5 @@
 ---
-title: 'Lecture 8'
+title: 'Lecture 4'
 subtitle: 'Tidy data, long and wide, missingness, reordering groups'
 output:
   xaringan::moon_reader:
@@ -29,21 +29,7 @@ knitr::opts_chunk$set(fig.dim=c(4.8, 4.5), fig.retina=2, out.width="100%")
 hrc <- read_csv(here::here("data/horizons_river_quality/horizons_river_ecoli.csv"))
 ```
 
-class: middle, inverse
-
-## Learning outcomes
-
-- Tidy data
-
-- Pivoting data between long and wide
-
-- Missingness
-
-- Reordering groups
-
----
-
-class: middle, inverse
+class: middle
 
 # Tidy data
 
@@ -54,7 +40,7 @@ class: middle, inverse
 Consider the following data on COVID-19 case and testing numbers from New Zealand and Australia
 
 ```{r, message=FALSE}
-covid1 <- read_csv("http://www.massey.ac.nz/~jcmarsha/161122/covid_au_nz.csv")
+covid1 <- read_csv(here::here("data/covid19/covid_au_nz.csv"))
 covid1
 ```
 
@@ -65,7 +51,7 @@ covid1
 Consider the following data on COVID-19 case and testing numbers from New Zealand and Australia
 
 ```{r, message=FALSE}
-covid2 <- read_csv("http://www.massey.ac.nz/~jcmarsha/161122/covid_au_nz2.csv")
+covid2 <- read_csv(here::here("data/covid19/covid_au_nz2.csv"))
 covid2
 ```
 
@@ -76,7 +62,7 @@ covid2
 Consider the following data on COVID-19 case and testing numbers from New Zealand and Australia
 
 ```{r, message=FALSE}
-covid3 <- read_csv("http://www.massey.ac.nz/~jcmarsha/161122/covid_au_nz3.csv")
+covid3 <- read_csv(here::here("data/covid19/covid_au_nz3.csv"))
 covid3
 ```
 
@@ -87,8 +73,8 @@ covid3
 Consider the following data on COVID-19 case and testing numbers from New Zealand and Australia
 
 ```{r, message=FALSE}
-covid4a <- read_csv("http://www.massey.ac.nz/~jcmarsha/161122/covid_au_nz4a.csv")
-covid4b <- read_csv("http://www.massey.ac.nz/~jcmarsha/161122/covid_au_nz4b.csv")
+covid4a <- read_csv(here::here("data/covid19/covid_au_nz4a.csv"))
+covid4b <- read_csv(here::here("data/covid19/covid_au_nz4b.csv"))
 covid4a
 covid4b
 ```
@@ -221,7 +207,7 @@ We fix the second by making the data **wider** (combine rows by shifting values 
 
 ---
 
-class: middle, inverse
+class: middle
 
 # Pivoting between wide and long
 
@@ -289,6 +275,20 @@ tidy4a %>% left_join(tidy4b)
 
 ---
 
+class: inverse
+
+## Try yourself
+
+Open up `tidyr01.R` where we have some cycle count data for the He Ara Kotahi cycle way.
+
+Create a new, long version of these data with `Direction` and `Count` columns.
+
+Summarise the mean count by hour for each direction.
+
+Plot these (count versus hour) for each direction on the same plot.
+
+---
+
 ## Pivoting wider
 
 `covid2` is too long: an observation is a country in a month, but each observation is spread across
@@ -340,6 +340,14 @@ Note that we don't need to quote the `type` and `count` as they are existing col
 
 ---
 
+class: inverse
+
+## Try yourself
+
+Try pivoting the summarised cycle count data back into wide format.
+
+---
+
 ## Pivoting wider: Tables
 
 Not all untidy data is bad!
@@ -372,7 +380,15 @@ The `kable()` function just gives us a slightly prettier looking table.
 
 ---
 
-class: middle, inverse
+class: inverse
+
+## Try yourself
+
+TODO: FINISH HIM - TABLSE!!!
+
+---
+
+class: middle
 
 # Separating and uniting
 
@@ -419,6 +435,14 @@ Specifying `convert=TRUE` is helpful if you want to convert character strings in
 
 ---
 
+class: inverse
+
+## Try yourself
+
+TODO: Finish him!
+
+---
+
 ## Uniting
 
 The opposite of `separate()` is `unite()`. You don't tend to need this so often, but it's still useful. e.g. suppose
@@ -444,7 +468,15 @@ covid5 %>%
 
 ---
 
-class: middle, inverse
+class: inverse
+
+## Try yourself
+
+TODO: Finish him!
+
+---
+
+class: middle
 
 # Missing values
 
@@ -520,7 +552,7 @@ freyberg_new_entrants %>%
 
 ---
 
-class: middle,inverse
+class: middle
 
 # Reordering groups
 
