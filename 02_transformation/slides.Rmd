@@ -612,7 +612,6 @@ Open up `dplyr02.R`. You'll see it is creating a new, "clean" dataset using `mut
 1. Using the `clean` dataset, create a new column combining ethnicgroup and gender with `paste`.
 2. Redo part 1, so that the original two columns are removed.
 3. Create a new variable "Age" with the typical age of students in each year level (Year 1 students are typically 5 years old).
-4. Investigate using the `unite` function from `tidyr` to do what you did in part 1 and 2.
 
 ---
 

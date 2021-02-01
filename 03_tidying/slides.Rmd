@@ -344,7 +344,7 @@ class: inverse
 
 ## Try yourself
 
-Try pivoting the summarised cycle count data back into wide format.
+Try pivoting the summarised cycle count data back into wide format to give a table.
 
 ---
 
@@ -384,7 +384,12 @@ class: inverse
 
 ## Try yourself
 
-TODO: FINISH HIM - TABLSE!!!
+Open `tidyr02.R` which deals with the school roll data again.
+
+1. Create a table with number of male and female students in each year level.
+2. Create a table with the number of each ethnic group in each year level.
+3. Try adding a "Total" column to the ethnic group by gender table. You could do this before the `pivot_wider` by using a `mutate` with `sum(Students)`.
+4. Try creating a table with the percentage of female and male students within each ethnic group. You can add a new column with `mutate()` and get the percentage by using `Students/sum(Students)` within each ethnic group.
 
 ---
 
@@ -439,7 +444,14 @@ class: inverse
 
 ## Try yourself
 
-TODO: Finish him!
+In an earlier exercise we combined the `Ethnicity` and `Gender` columns together using
+
+```{r, eval=FALSE}
+combined = schools %>% mutate(EthnicityGender = paste(Ethnicity, Gender)) %>%
+  select(-Ethnicity, -Gender)
+```
+
+Using that again, use `separate()` to break the variables back out again.
 
 ---
 
@@ -472,7 +484,7 @@ class: inverse
 
 ## Try yourself
 
-TODO: Finish him!
+Use `unite()` to paste together the `Ethnicity` and `Gender` columns.
 
 ---
 
@@ -495,6 +507,16 @@ freyberg_new_entrants <- roll %>% filter(School == "Freyberg Community School") 
 ```{r}
 freyberg_new_entrants
 ```
+
+---
+
+class: inverse
+
+## Code along
+
+Open up `tidyr03.R` which has the code for the `freyberg_new_entrants`.
+
+Code along as we look at one way to find and deal with implicit missing values.
 
 ---
 
@@ -723,18 +745,21 @@ covid1 %>%
 
 ---
 
-## Summary
+class: inverse
 
-- Tidy data has each column as a variable and each row as an observation.
+Open `cycle_counts.R` and try and reproduce this graph.
 
-- Use `pivot_longer()` where you have variables distributed over multiple columns and multiple observations per row.
+```{r, echo=FALSE, message=FALSE, fig.retina = 3, fig.dim=c(7,4), out.height='90%', out.width='100%'}
+plot_days <- read_csv(here::here("data/cycle_counts/cycle_counts_plot.csv"))
 
-- Use `pivot_wider()` where you have multiple rows per observation and variable names encoded as a column.
+ggplot(plot_days) + aes(x=Hour, y=Count, col=Direction) +
+  geom_line(size=1) + 
+  facet_grid(rows = vars(Timeperiod), cols = vars(as_factor(WeekDay))) +
+  theme_minimal(base_size=10) + labs(x=NULL, y=NULL, colour=NULL,
+                         title="Every day is a weekend. Cycling across He Ara Kotahi in lockdown",
+                         subtitle = "Count data thanks to PNCC") +
+  theme(axis.text.x = element_blank()) +
+  theme(legend.position="bottom") +
+  scale_colour_manual(values = c("#984ea3", "#1f78b4"))
+```
 
-- Use `separate()` where you have multiple variables in a single column.
-
-- Use `unite()` to bring together multiple columns into a single variable.
-
-- Look out for **implicit** missing observations. Use `complete()` to make them explicit.
-
-- Reorder grouping variables with `as_factor()` or `fct_relevel()`.
