@@ -2,7 +2,7 @@
 library(tidyverse)
 
 # read in the data
-hrc = read_csv(here::here("data/horizons_river_quality/horizons_river_ecoli.csv"))
+hrc = read_csv("data/horizons_river_quality/horizons_river_ecoli.csv")
 
 # subset to just sites 1 through 5 (don't worry about this code - we'll explain later!)
 hrc_sub = filter(hrc, SiteID < "00006")
