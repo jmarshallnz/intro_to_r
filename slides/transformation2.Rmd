@@ -1,0 +1,635 @@
+---
+title: 'Data transformation 2'
+subtitle: 'Introduction to RStudio'
+output:
+  xaringan::moon_reader:
+    css: [default, default-fonts, "custom.css"]
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"
+    nature:
+      highlightStyle: tomorrow
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(palmerpenguins)
+#data(package = 'palmerpenguins')
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+knitr::opts_chunk$set(fig.dim=c(4.8, 4.5), fig.retina=2, out.width="100%")
+```
+
+```{r, echo=FALSE, message=FALSE}
+hrc <- read_csv(here::here("data/horizons_river_quality/horizons_river_ecoli.csv"))
+```
+
+## Recall:
+
+`dplyr` consists of a set of verbs that help us solve the most common data manipulation challenges:
+
+- `select` to choose variables (columns) by name.
+- `filter` to choose observations (rows) by value.
+- `mutate` to add new variables based of existing variables.
+- `summarise` to reduce multiple values down to a single summary.
+- `arrange` changes the order of rows.
+
+All of these combine with `group_by` to do all the above operation on subgroups of the data.
+
+---
+
+## Summarising rows with `summarise`
+
+`summarise` computes summary statistics across all rows.
+
+It generally takes lots of rows, performs some computation on one (or more) columns, and results in a single row output.
+
+e.g. you can use this to compute means, medians, counts, totals or other summary statistics:
+
+```{r}
+hrc %>% summarise(Mean = mean(Value))
+```
+
+---
+
+## Summarising rows with `summarise`
+
+You can do as many summaries at once as you like:
+
+```{r}
+hrc %>% summarise(Mean = mean(Value),
+                  Median = median(Value),
+                  IQR = IQR(Value),
+                  Count = n(),
+                  Total = sum(Value),
+                  Mean2 = Total / Count)
+```
+
+Notice in the `Mean2` computation, we're using columns that we computed earlier in the same `summarise()` command.
+
+The `n()` function is useful for number of rows. Also `n_distinct()` for the number of distinct values.
+
+---
+
+## Summarising rows with `summarise`
+
+You can use summaries that produce more than one result, and they'll be placed in multiple rows:
+
+.pull-left[
+```{r}
+hrc %>%
+  summarise(
+    Quantile = quantile(Value)
+    )
+```
+
+But, you need to make sure you know which is which!
+]
+
+--
+
+.pull-right[
+```{r}
+hrc %>%
+  summarise(
+    Prob = c(0,0.25,0.5,0.75,1),
+    Quantile = quantile(Value, probs=Prob)
+    )
+```
+
+**Sticking to summaries that return a single value is safest.**
+]
+
+---
+
+## Summarising rows with `summarise`
+
+This can be combined with the other functions. e.g. to find a summary of counts at a common swimming location in summer:
+
+```{r, message=FALSE}
+library(lubridate)
+hrc %>%
+  mutate(Month = month(Date, label = TRUE),
+         Year = year(Date)) %>%
+  filter(Site == "manawatu at u/s pncc stp",
+         Month %in% c("Dec", "Jan", "Feb"),
+         Year >= 2013) %>%
+  summarise(Median = median(Value), Maximum = max(Value))
+```
+
+A count of 690 means the risk is around 6% of getting sick. The median risk is less than 0.1%.
+
+---
+
+class: inverse
+background-image: url("graphics/hrc-00080.jpg")
+
+---
+
+class: inverse
+
+## Try yourself
+
+In `dplyr02.R`,
+
+1. Find the largest (maximum) number of students in any row.
+2. Find the median number of students in a row.
+3. What is the lowest and highest year levels in the data?
+4. Find the number of Maori students in year 9 (hint: `filter` then `summarise`)
+
+---
+
+class: middle
+
+# Grouping
+
+---
+
+## Grouping with `group_by`
+
+The power of `dplyr` is that it can do all of the previous actions on subgroups of the data (all at once) rather than the entire data.
+
+.pull-left[
+```{r}
+hrc %>% select(SiteID, Date, Value)
+```
+]
+
+.pull-right[
+```{r}
+hrc %>% select(SiteID, Date, Value) %>% 
+  group_by(SiteID)
+```
+]
+
+---
+
+.pull-left[
+
+## Grouping with `group_by`
+
+So while this produces a single row:
+
+```{r}
+hrc %>%
+  summarise(Median = median(Value))
+```
+]
+
+--
+
+.pull-right[
+## &nbsp;
+
+This produces multiple rows, one for each year:
+
+```{r}
+hrc %>% mutate(Year = year(Date)) %>%
+  group_by(Year) %>% 
+  summarise(Median = median(Value))
+```
+]
+
+---
+
+```{r}
+hrc %>%
+  mutate(Year = year(Date)) %>%
+  group_by(Year) %>% 
+  summarise(Median = median(Value))
+```
+
+Notice the message here: `summarise` has ungrouped the output. This is because the groups no longer matter, as each group has just 1 row anyway.
+
+---
+
+class: inverse
+
+## Try yourself
+
+In `dplyr02.R`, try to answer:
+
+1. How many students of each ethnicity are there?
+2. How many students are there of each gender?
+3. Which school has the most female students in year 13?
+4. Produce a graph of the total number of students by year level. Hint: First get the data frame you want, and then use `ggplot` with `geom_col`.
+
+---
+
+## Grouping multiple variables
+
+When you `group_by()` at more than one variable, the other verbs operate within unique combinations of those variables.
+
+If you do a `summarise()` then you reduce the data down to one row for the inner-most variable. So it will drop this level of grouping, retaining grouping at higher levels.
+
+```{r}
+hrc %>%
+  mutate(Year = year(Date)) %>%
+  group_by(Site, Year) %>%
+  summarise(Median = median(Value))
+```
+
+---
+
+This means that subsequent operations happen at the `Site` level:
+
+```{r}
+hrc %>%
+  mutate(Year = year(Date)) %>%
+  group_by(Site, Year) %>%
+  summarise(Median = median(Value)) %>%
+  mutate(Overall = median(Median))
+```
+
+---
+
+You can remove grouping with `ungroup()`:
+
+```{r}
+hrc %>%
+  mutate(Year = year(Date)) %>%
+  group_by(Site, Year) %>%
+  summarise(Median = median(Value)) %>%
+  ungroup() %>%
+  mutate(Overall = median(Median))
+```
+
+---
+
+class: inverse
+
+## Try yourself
+
+Alter your graph of the total number of students by year level to also include gender.
+
+---
+
+## Counting
+
+Another really helpful function that isn't one of the 6 main functions is `count()`.
+
+```{r, eval=FALSE}
+hrc %>% count(Site)
+```
+
+is equivalent to:
+
+```{r, eval=FALSE}
+hrc %>% group_by(Site) %>% summarise(n = n())
+```
+
+The function `add_count()` adds a count column instead of summarising.
+
+---
+
+.pull-left[
+```{r}
+hrc %>% count(Site)
+```
+]
+.pull-right[
+```{r}
+hrc %>% add_count(Site) %>%
+  select(Site, Value, n)
+```
+]
+
+---
+
+## Other helpers
+
+`slice_min()` and `slice_max()` are useful for finding the top (or bottom) few entries.
+
+.pull-left[
+```{r}
+hrc %>% select(Site, Value) %>%
+  arrange(desc(Value)) %>%
+  filter(row_number() <= 10)
+```
+]
+
+.pull-right[
+```{r}
+hrc %>%
+  select(Site, Value) %>%
+  slice_max(Value, n=10)
+```
+]
+
+---
+
+## Other helpers
+
+There are also `slice()` for taking rows out by row number, or `slice_head()` and `slice_tail()` for taking from the ends. `slice_sample()` can be used to take a random sample.
+
+```{r}
+hrc %>% slice_sample(n=10)
+```
+
+---
+
+## Putting it all together
+
+With the 6 main functions `select`, `arrange`, `filter`, `mutate`, `summarise` and `group_by` we can now answer many questions:
+
+- Which are the best or worst sites on average (e.g. by Median)?
+
+- Which sites do we not have much data on?
+
+- Which sites are new?
+
+- Which sites are tested infrequently?
+
+---
+
+class: inverse
+
+## Try yourself
+
+Open up `dplyr03.R` and answer these four questions:
+
+1. Which are the best or worst sites on average (e.g. by Median)?
+2. Which sites do we not have much data on?
+3. Which sites are new?
+4. Which sites are tested infrequently?
+
+---
+
+class: middle
+
+# Combining data
+
+---
+
+## Combining data through joins
+
+It is common to receive data in several different spreadsheets.
+
+e.g. if doing a study where samples are taken from animals across farms, you might have a samples spreadsheet, an animals spreadsheet, and a farms spreadsheet.
+
+For final analyses on samples, however, you might want to assess animal or farm-level effects on outcomes at the sample level.
+
+Thus, you'll need to combine the data from these spreadsheets together into a single `data.frame`.
+
+In RStudio, we do this using **joins** in `dplyr`.
+
+---
+
+## Data sets
+
+We'll use a couple of datasets from the Star Wars movies for this.
+
+```{r, message=FALSE}
+characters <- read_csv(here::here("data/starwars/sw_characters.csv"))
+characters
+```
+
+---
+
+## Data sets
+
+We'll use a couple of datasets from the Star Wars movies for this.
+
+```{r, message=FALSE}
+films <- read_csv(here::here("data/starwars/sw_films.csv"))
+films
+```
+
+---
+
+## Joining with `dplyr`
+
+There are two main types of join in dplyr: **mutating joins** and **filtering joins**.
+
+- Mutating joins add new columns from the additional dataset.
+
+- Filtering joins filter out existing columns based on information in the additional dataset.
+
+For both, we need a set of 'primary' or 'key' columns: these are columns that share the same
+information so we can merge the datasets together.
+
+e.g. The `films` and `characters` datasets share the `name` column, so that will be our key.
+
+---
+
+## Mutating joins
+
+There are four separate mutating joins:
+
+- `left_join(x,y)` returns all rows in x, and all rows that match these in y. If y doesn't have a match, `NA` will be used.
+
+- `right_join(x,y)` returns all rows in y and all rows that match these in x. If x doesn't have a match in y, `NA` will be used.
+
+- `inner_join(x,y)` returns only rows in x and y that have a match.
+
+- `full_join(x,y)` returns all rows in x and all rows in y. Anything in x or y that don't have a match will be filled with `NA`.
+
+---
+
+class: inverse
+
+## Code along
+
+Open up `dplyr04.R` and try running:
+
+`characters %>% left_join(films)`
+
+Try out the other joins as well as we go through them.
+
+---
+
+.pull-left[
+## Left join
+
+`left_join()` returns all rows in the 'left' data set and anything that matches in the right.
+]
+
+.pull-right[
+![](graphics/joins/left-join.gif)
+]
+
+---
+
+.pull-left[
+## Left join
+
+`left_join()` returns all rows in the 'left' data set and anything that matches in the right.
+
+If there's more than one matching row on the right, both are returned.
+]
+
+.pull-right[
+![](graphics/joins/left-join-extra.gif)
+]
+
+---
+
+`left_join()` returns all rows in the 'left' data set and anything that matches in the right.
+
+```{r}
+characters %>% left_join(films)
+```
+
+---
+
+.pull-left[
+## Right join
+
+`right_join()` returns all rows in the 'right' data set and anything that matches in the left.
+]
+
+.pull-right[
+![](graphics/joins/right-join.gif)
+]
+
+---
+
+`right_join()` returns all rows in the 'right' data set and anything that matches in the left.
+
+```{r}
+characters %>% right_join(films)
+```
+
+---
+
+.pull-left[
+## Inner join
+
+`inner_join()` returns only rows in both data sets. No `NA` from the join.
+]
+
+.pull-right[
+![](graphics/joins/inner-join.gif)
+]
+
+---
+
+`inner_join()` returns only rows in both data sets. No `NA` from the join.
+
+```{r}
+characters %>% inner_join(films)
+```
+
+---
+
+.pull-left[
+## Full join
+
+`full_join()` returns all rows in both data sets. Anything that doesn't match gets `NA`.
+]
+
+.pull-right[
+![](graphics/joins/full-join.gif)
+]
+
+---
+
+`full_join()` returns all rows in both data sets. Anything that doesn't match gets `NA`.
+
+```{r}
+characters %>% full_join(films)
+```
+
+---
+
+## Mutating joins
+
+The `left_join()` is the one I use the most.
+
+Reason is you almost always start with the dataset that has the outcomes you want
+in it, and are joining back to explanatory things.
+
+---
+
+class: inverse
+
+## Try yourself
+
+Open up `dplyr05.R` which reads in school information as well as the roll information.
+
+Create a new data frame `all_data` which takes the `clean` roll data and left joins it to the `schools` data.
+
+1. How many students are there in each Regional Council?
+2. How many girls and boys are in schools with a religious affiliation?
+3. Produce a chart to compare the ethnic makeup of secondary schools in Decile 10 versus those in Decile 1, excluding international fee paying students.
+
+---
+
+## Filtering joins
+
+The two filtering joins only return columns in x. They are:
+
+- `semi_join(x,y)` returns rows in x with a match in y.
+
+- `anti_join(x,y)` returns rows in x that don't have a match in y.
+
+i.e. `semi_join` is for keeping things in, `anti_join` is to filter things out.
+
+---
+
+.pull-left[
+## Semi join
+
+`semi_join` will return the characters which are in one or more of our films.
+]
+
+.pull-right[
+![](graphics/joins/semi-join.gif)
+]
+
+---
+
+## Semi join
+
+`semi_join` will return the characters which are in one or more of our films.
+
+```{r}
+characters %>% semi_join(films)
+```
+
+---
+
+.pull-left[
+## Anti join
+
+`anti_join` will return the characters which aren't in any of our films.
+]
+
+.pull-right[
+![](graphics/joins/anti-join.gif)
+]
+
+---
+
+## Anti join
+
+`anti_join` will return the characters which aren't in any of our films.
+
+```{r}
+characters %>% anti_join(films)
+```
+
+---
+
+class: inverse
+
+## Code along
+
+This code along we'll look at some sentiment analysis of tweets by Kate Newton
+
+Open up `nzpol_sentiment.R` and take a read through.
+
+---
+
+class: inverse
+
+## More exercises
+
+TODO: Add extra stuff here

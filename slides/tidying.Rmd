@@ -1,9 +1,9 @@
 ---
-title: 'Lecture 4'
-subtitle: 'Tidy data, long and wide, missingness, reordering groups'
+title: 'Tidying data'
+subtitle: 'Introduction to RStudio'
 output:
   xaringan::moon_reader:
-    css: [default, default-fonts, "../custom.css"]
+    css: [default, default-fonts, "custom.css"]
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"
     nature:
       highlightStyle: tomorrow
@@ -28,12 +28,6 @@ knitr::opts_chunk$set(echo = TRUE, comment = "")
 knitr::opts_chunk$set(fig.dim=c(4.8, 4.5), fig.retina=2, out.width="100%")
 hrc <- read_csv(here::here("data/horizons_river_quality/horizons_river_ecoli.csv"))
 ```
-
-class: middle
-
-# Tidy data
-
----
 
 ## Tidy data
 

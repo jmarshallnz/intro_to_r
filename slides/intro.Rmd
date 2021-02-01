@@ -1,9 +1,9 @@
 ---
-title: 'Lecture 0'
-subtitle: 'Introduction'
+title: 'Introduction'
+subtitle: 'R and RStudio'
 output:
   xaringan::moon_reader:
-    css: [default, default-fonts, "../custom.css"]
+    css: [default, default-fonts, "custom.css"]
     nature:
       highlightStyle: tomorrow
       highlightLines: true
@@ -11,9 +11,9 @@ output:
       ratio: "16:9"
       slideNumberFormat: |
         <div class="progress-bar-container">
-          </div>
           <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
-       </div>
+          </div>
+        </div>
 editor_options:
   chunk_output_type: console
 ---
