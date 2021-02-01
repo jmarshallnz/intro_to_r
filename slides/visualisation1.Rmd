@@ -944,4 +944,12 @@ class: inverse
 
 ## More exercises
 
-TODO: Add extra stuff here
+Open up `quakes.R` to explore some earthquake data from around Fiji.
+
+1. Visualise the earthquake data by longitude and latitude.
+
+2. Try to add depth, magnitude or number of stations that the earthquake was detected at to the plot through the colour, shape, size etc aesthetics.
+
+3. Try out some different geometries (e.g. points, density2d, bin2d). You could try altering the amount of smoothing in `geom_density2d` using the `adjust` parameter.
+
+4. Instead of location, do a plot of magnitude versus number of stations detected. Presumably there'd be some relationship. What type of geometries might work best for that? Investigating `geom_jitter` might be useful here.

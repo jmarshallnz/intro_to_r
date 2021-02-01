@@ -927,4 +927,17 @@ class: inverse
 
 ## More exercises
 
-TODO: Add extra stuff here
+Open up `immunisation.R` which loads in data on immunisation coverage for each DHB by quarter since July 2009.
+
+1. Using the `immunity8months` dataset, produce a plot of the proportion immunised at 8 months for each DHB through time, comparing them to the 95% health target.
+
+    - The `geom_hline()` function can be used to put a horizontal line on the plot.
+    - Consider how to clearly differentiate each DHB.
+    - Make sure you clearly label axes and have a suitable title.
+
+2. Choose a single DHB and filter the `immunity` data to contain all measures for that DHB in the same way the `immunity8months` one was done. Produce a plot to demonstrate how that DHB is tracking over time for all age groups.
+
+    - Consider smoothing the data
+    - Make sure you can clearly distinguish the different age groups.
+    - Make sure you clearly label axes and have a suitable title.
+
