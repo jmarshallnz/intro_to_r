@@ -1399,6 +1399,8 @@ Google 'colour picker' and Copy/Paste.
 
 ---
 
+class: inverse
+
 ## Try yourself
 
 Open up `ggplot04.R` which has some summarised data on COVID-19 test performance from
