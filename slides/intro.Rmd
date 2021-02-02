@@ -60,6 +60,12 @@ j.c.marshall@massey.ac.nz |  angelin-bonnet@massey.ac.nz
 
 ---
 
+class: middle, inverse
+
+# Who are you?
+
+---
+
 ## Plan
 
 - Learn a bit of R and RStudio
