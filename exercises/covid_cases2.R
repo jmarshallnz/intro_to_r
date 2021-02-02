@@ -5,7 +5,7 @@ library(janitor)    # for some tidying up
 library(lubridate)  # for dates
 
 # Read in the case data in and tidy up
-covid = read_excel("data/covid_arrivals/covid-cases-30july20.xlsx", skip=3) %>%
+covid = read_excel("data/covid19/covid-cases-30july20.xlsx", skip=3) %>%
   clean_names()
 
 # Take a look at the type of data we have. Notice that the dates are of type dttm (Date time)

@@ -917,7 +917,7 @@ It's making the story clear.
 ---
 
 ```{r, echo=FALSE, message=FALSE, fig.dim=c(6,3.5), fig.retina=3}
-border_plot <- read_csv(here::here("data/covid_arrivals/border_plot.csv"))
+border_plot <- read_csv(here::here("data/covid19/border_plot.csv"))
 ggplot(border_plot) +
   aes(x=Date, y=fit) +
   geom_col(aes(x=Date, y=cases_per_arrival), fill='red') +
