@@ -632,4 +632,18 @@ class: inverse
 
 ## More exercises
 
-TODO: Add extra stuff here
+In `covid_cases1.R` we have data from the Ministry of Health on COVID-19 cases up to end of July.
+
+1. Alter the **epidemic curve** plot to out split by `sex` (either through colour or via small multiples)
+
+2. How many cases were there by each age group?
+
+3. How many cases were there by DHB when those with overseas travel are removed?
+
+In `covid_cases2.R` we focus on overseas arrivals to investigate how long it takes to detect a case after arrival, assuming cases were positive when they arrived, as a (very simplistic!) proxy for potential infectious period.
+
+1. Investigate the distribution of the length prior to notification by looking at the distribution (e.g. using a histogram, boxplot or density).
+
+2. How many are notified after the 14 days that is used as the isolation period at the border?
+
+3. Presumably the notified date depends on when they were tested - if they are tested in isolation (as was happening with everyone after June 16) then we'd expect fairly early detection, whereas if they left isolation without a test (as they were asymptomatic) it might be later. Investigate how the length changes during the epidemic.
