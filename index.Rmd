@@ -1,0 +1,60 @@
+---
+title: "Introduction to RStudio"
+subtitle: "Massey University"
+date: "11-12th February 2021"
+output: html_document
+---
+
+Introduction to RStudio is a short course introducing people to R and RStudio.
+
+The presenters are Jonathan Marshall and Olivia Angelin-Bonnet.
+
+### Venue
+
+The statistics computing laboratory in Science Tower B room 3.31 (ScB3.31).
+
+### Preparation
+
+If you're bringing your own laptop, then please install R and RStudio beforehand.
+
+[Click here for instructions on downloading and installing R and RStudio](downloading.html)
+
+In addition, download the materials below.
+
+### Materials
+
+Presentation slides are linked below.
+
+Materials for exercises will be available here the week of the 8th of February.
+
+```{r, echo=FALSE, eval=FALSE}
+#All the material for exercises is available [in this zip file](intro_to_r.zip). Unzip this to
+#a convenient location, and open up `intro_to_r.Rproj` to load RStudio.
+```
+
+### Timetable
+
+**Thursday 11th February 2021**
+
+| Time          | What we'll do         |
+|---------------|-----------------------|
+| 9:00 - 9:10   | [Introduction](intro.html) |
+| 9:10 - 10:40  | [Visualisation 1](visualisation1.html) |
+| 10:40 - 11:00 | **Morning tea**           |
+| 11:00 - 12:45 | [Visualisation 2](visualisation2.html) |
+| 12:45 - 1:45 | **Lunch** |
+| 1:45 - 3:30  | [Data Transformation 1](transformation1.html) |
+| 3:30 - 4:00  | **Afternoon tea** |
+| 4:00 - 5:00  | Catchup/revision |
+
+**Friday 12th February 2021**
+
+| Time          | What we'll do         |
+|---------------|-----------------------|
+| 9:00 - 10:40  | [Data Transformation 2](transformation2.html) |
+| 10:40 - 11:00 | **Morning tea**           |
+| 11:00 - 12:45 | [Tidying Data](tidying.html) |
+| 12:45 - 1:45 | **Lunch** |
+| 1:45 - 3:30  | [Modelling](modelling.html) |
+| 3:30 - 4:00  | **Afternoon tea** |
+| 4:00 - 5:00  | Catchup/revision |

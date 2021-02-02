@@ -1,0 +1,50 @@
+---
+title: "Downloading RStudio"
+author: "Jonathan Marshall"
+output: html_document
+---
+
+RStudio is freely available and runs on Windows, Mac, and Linux operating systems. There are also web-based methods for running RStudio, but we recommend that you download the correct version for your operating system at the beginning of the semester.
+
+Please download and install the latest version, even if you have an older version already installed - you're less likely to have problems if everything is up to date.
+
+You need to download two things: R (the bit that does all the work) and RStudio (the bit we interact with).
+
+### Downloading and installing R
+
+#### Windows users
+
+You can download R from the R project webpage by clicking on this link:
+
+https://cran.rstudio.com/bin/windows/base/
+
+Once downloaded, click on the installer and follow the instructions.
+
+#### Mac Users
+
+You can download R from the R project webpage by clicking on this link:
+
+https://cran.rstudio.com/bin/macosx/
+
+When you download the `.pkg` file, you’ll need to open the `.pkg` and then run the installer.
+
+The Mac version of R requires OSX 10.13 High Sierra or later. If your machine uses an older version of the Mac OS, then you will experience difficulty. If you cannot use a recent version of the Mac OS, or another computer, then please make contact with course staff.
+
+### Downloading and installing RStudio
+
+You can download RStudio from the [RStudio download page](https://www.rstudio.com/products/rstudio/download). You want the "RStudio Desktop Open Source License" version. Once downloaded, run the installer and you should be good to go.
+
+#### Mac users
+
+The Mac version of RStudio comes as a `.dmg` (disk image). You should open the downloaded file, and then drag the RStudio icon into the Applications folder to install. Once done, the `.dmg` file is no longer required.
+
+### Installing packages
+
+It's recommended to install a few packages. The main one is the `tidyverse` package.
+
+1. In RStudio, click on the **Packages** tab in the bottom right pane.
+2. Click "Install".
+3. Type in the name of the package, e.g. `tidyverse`.
+4. Click install.
+
+RStudio may suggest that other packages should be installed as well. Usually that is fine. Just agree and sit back while everything is setup.
