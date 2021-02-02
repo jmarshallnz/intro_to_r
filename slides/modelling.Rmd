@@ -1,0 +1,70 @@
+---
+title: 'Modelling'
+subtitle: 'Introduction to RStudio'
+output:
+  xaringan::moon_reader:
+    css: [default, default-fonts, "custom.css"]
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"
+    nature:
+      highlightStyle: tomorrow
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(palmerpenguins)
+#data(package = 'palmerpenguins')
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+knitr::opts_chunk$set(fig.dim=c(4.8, 4.5), fig.retina=2, out.width="100%")
+```
+
+## Modelling
+
+R and RStudio are very powerful when it comes to statistical modelling.
+
+Anything within the framework of the General Linear Model or the Generalised Linear Model is easy to fit and extract
+results from.
+
+More complex statistical models, such as hierarchical (mixed) models etc are also well supported.
+
+There is a package for just about any methodology you may wish to use.
+
+Most new statistical methods are published with an accompanying R package nowadays.
+
+---
+
+## Modelling
+
+We can start simply with standard linear regression.
+
+In fact, let's go further, and dive straight into multiple linear regression.
+
+Recall that multiple linear regression takes the form
+$$
+y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_p x_{ip} + \epsilon_i
+$$
+where we assume the errors or residuals are normally distributed $\epsilon_i \sim \mathsf{Normal}(0, \sigma^2)$.
+
+We define this type of model in R using a **formula**:
+
+```{r, eval=FALSE}
+y ~ 1 + x1 + x2 + x3
+```
+
+This basically just says that we're modelling $y$ using an intercept term (the 1) plus a linear combination of the predictors $x_1$ through $x_3$.
+
+---
+
+class: inverse
+
+TODO: Add additional exercises here!!!
