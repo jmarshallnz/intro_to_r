@@ -927,7 +927,7 @@ class: inverse
 
 ## More exercises
 
-Open up `immunisation.R` which loads in data on immunisation coverage for each DHB by quarter since July 2009.
+Open up `immunisation1.R` which loads in data on immunisation coverage for each DHB by quarter since July 2009.
 
 1. Using the `immunity8months` dataset, produce a plot of the proportion immunised at 8 months for each DHB through time, comparing them to the 95% health target.
 

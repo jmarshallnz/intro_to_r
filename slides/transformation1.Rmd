@@ -646,4 +646,17 @@ class: inverse
 
 ## More exercises
 
-TODO: Add extra stuff here
+Open up `immunisation2.R` which loads in data on immunisation coverage for each DHB by ethnicity per quarter since July 2009. This is a closer to original dataset compared to the one used in `immunisation1.R`.
+
+You'll notice that the dataset contains a `Total` value for `Ethnicity` as well as a `National` value for `DHB`.
+
+1. Start by removing ethnicity by filtering down to only the `Total` values.
+
+2. Add a `Proportion` column for proportion immunised.
+
+3. Create a table to summarise the proportion immunised in each age group across the country (use the `National` DHB for this) in the first (`2009-07-01`) and last (`2020-06-30`) quarters.
+
+4. Produce a plot showing how immunisation rates have changed over time for each age group (use `National` DHB and `Total` ethnicity).
+
+5. Choose an ethnicity, and produce the same plot as in part 4, but just for your chosen ethnicity. Alternatively, construct a plot with all ethnicities at once (perhaps using small multiples?)
+
