@@ -2,4 +2,4 @@
 library(tidyverse)
 
 # Read in the vaccination data
-vacc = read_csv("data/vaccinations_all.csv")
+vacc = read_csv("data/vaccinations/all.csv")

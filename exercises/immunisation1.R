@@ -2,7 +2,7 @@
 library(tidyverse)
 
 # Read in the vaccination data
-vacc = read_csv("data/vaccinations.csv")
+vacc = read_csv("data/vaccinations/vaccinations.csv")
 
 # Compute the proportion immunised
 immunity = mutate(vacc, Proportion = Eligible / Immunised)
