@@ -35,12 +35,10 @@ class: middle
 
 ## Teaching team
 
-In order of appearance:
-
 Jonathan Marshall         |  Olivia Angelin-Bonnet
 --------------------------|----------------------------
-ScB3.17                   |   ScB3.15
-j.c.marshall@massey.ac.nz |   angelin-bonnet@massey.ac.nz
+ScB3.17                   |  ScB3.27
+j.c.marshall@massey.ac.nz |  angelin-bonnet@massey.ac.nz
 
 ---
 
@@ -77,12 +75,19 @@ j.c.marshall@massey.ac.nz |   angelin-bonnet@massey.ac.nz
 ## Plan: Today
 
 9:00 - 9:10 Intro - these slides
+
 9:10 - 10:40 Visualisation 1
+
 10:40 - 11:00 Morning tea
+
 11:00 - 12:45 Visualisation 2
+
 12:45 - 1:45 Lunch
+
 1:45 - 3:30 Data Transformation 1
+
 3:30 - 4:00 Afternoon tea
+
 4:00 - 5:00 Catchup/revision lab
 
 ---
@@ -90,33 +95,61 @@ j.c.marshall@massey.ac.nz |   angelin-bonnet@massey.ac.nz
 ## Plan: Tomorrow
 
 9:00 - 10:40 Data Transformation 2
+
 10:40 - 11:00 Morning tea
+
 11:00 - 12:45 Tidying data
+
 12:45 - 1:45 Lunch
+
 1:45 - 3:30 Modelling
+
 3:30 - 4:00 Afternoon tea
+
 4:00 - 5:00 Catchup/revision lab
 
 ---
 
-## Working with R/RStudio
+## Let's get RStudio going
 
-- Loading it up.
-- Console vs scripts.
-- Projects for organisation.
+- Make sure you've got R and RStudio installed.
+
+- Download the zip file here: https://www.massey.ac.nz/~jcmarsha/intro_to_r.zip
+
+- Unzip to somewhere convenient.
+
+- Double click on `intro_to_r.Rproj`
 
 ---
 
-## Getting data into RStudio
+## RStudio projects
 
-- read_csv()
-- Where does it read from?
-- Relative vs absolute paths.
-- read_excel()
-- Best practices
+- The `intro_to_r.rProj` acts as a 'base folder'.
+
+- Anything we load from there will be relative to the base.
+
+- e.g. to load some data, we'll be using paths that look like: `"data/<blah>"`
+
+- It is generally a good idea to use an RStudio project for each bit of analysis.
+
+- Then all data/code etc can be organised in there, and it's somewhat self-contained.
+
+- You can still read data from elsewhere - just supply a fully qualified path.
 
 ---
 
 ## Finding help
 
----
+- The cheatsheets in RStudio (Help -> Cheatsheets).
+
+- The tidyverse website: https://tidyverse.org
+
+- RStudio cloud primers: https://rstudio.cloud/learn/primers
+
+- R for Datascience book: https://r4ds.had.co.nz
+
+- Google is super useful! Include "R" or "RStudio" or maybe the name of the package "ggplot" or "dplyr" in
+your query.
+
+- Check the date of the google responses: older results might well be out of date.
+
