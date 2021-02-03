@@ -22,7 +22,7 @@ editor_options:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(lubridate)
-library(palmerpenguins)
+library(patchwork)
 #data(package = 'palmerpenguins')
 knitr::opts_chunk$set(echo = TRUE, comment = "")
 knitr::opts_chunk$set(fig.dim=c(4.8, 4.5), fig.retina=2, out.width="100%")
@@ -43,7 +43,7 @@ Most new statistical methods are published with an accompanying R package nowada
 
 ---
 
-## Modelling
+## Multiple linear regression
 
 We can start simply with standard linear regression.
 
@@ -61,10 +61,409 @@ We define this type of model in R using a **formula**:
 y ~ 1 + x1 + x2 + x3
 ```
 
-This basically just says that we're modelling $y$ using an intercept term (the 1) plus a linear combination of the predictors $x_1$ through $x_3$.
+This basically just says that we're modelling $y$ using an intercept term (the 1) plus a linear combination of the predictors $x_1$ through $x_3$. The modelling tools then estimate the coefficients of each of those predictors.
+
+---
+
+## Multiple linear regression
+
+Most of the modelling tools start with a data.frame in long (i.e. tidy) format: Each variable in a column, and each observation in rows.
+
+For standard multiple regression, the `lm` function (short for Linear Model) is used to fit the model, estimating coefficients and their standard errors etc.
+
+```{r, eval=FALSE}
+my_model = lm(y ~ 1 + x1 + x2 + x3, data = my_data)
+```
+
+The name `my_model` here can be whatever you like. The variables `y`, `x1` etc should be column names in the data.frame `my_data`.
+
+Note that by default `lm` will include the intercept so that `y ~ x1 + x2 + x3` is equivalent. (If you don't want the intercept for some reason, you can tell it so via `y ~ -1 + x1 + x2 + x3`.
+
+---
+
+## Multiple linear regression
+
+Some useful shortcuts are the use of '.' to mean 'everything'. i.e.
+
+```{r, eval=FALSE}
+my_big_model <- lm(y ~ ., data=my_data)
+```
+
+means to use all predictors (columns) in the data.frame `my_data` for estimating `y`. To drop a predictor you can use `-`:
+
+```{r, eval=FALSE}
+my_not_so_big_model <- lm(y ~ . - x3 - x5, data=my_data)
+```
+
+means to use all predictors except `x3` and `x5`.
+
+---
+
+## Multiple linear regression
+
+Once you have a fitted model object `my_model`, you can then get information out of it using:
+
+- `summary(my_model)`: gives an overview of all coefficients, standard errors, p-values, plus fit information (multiple $R^2$).
+- `anova(my_model)`: gives decomposition of variance by predictor, for assessing categorical variables.
+- `coef(my_model)`: just gives estimated coefficients.
+- `fitted(my_model)`: fitted values for each observation.
+- `residuals(my_model)`: residuals for each observation.
+- `predict(my_model)`: predicted values for each observation (including uncertainty).
+- `plot(my_model)`: diagnostic plots to check linearity, equal variance, normality etc.
+
+These are what I'd call 'untidy' ways to get information out. They're quick and dirty, but not necessarily very good for further processing (e.g. producing nice charts etc)
+
+---
+
+## Multiple linear regression: Tidy versions
+
+Once you have a fitted model object `my_model`, you can then get information out **in a tidy form** using the `broom` library:
+
+- `tidy(my_model)`: gives coefficients, standard errors, and p-values.
+- `glance(my_model)`: gives fit information (multiple $R^2$ etc).
+- `augment(my_model)`: adds columns to the original data.frame with fitted values, residuals, diagnostic values (e.g. cooks distance).
+
+Each of these gives a `data.frame`, so is useful for further analyses using `dplyr` or for plotting with `ggplot2`.
+
+---
+
+## Example: Donkeys!
+
+Data on 385 donkeys from Morocco from "Estimation of the liveweight and body condition of working donkeys in
+Morocco" by R.A. Pearson and M. Ouassat, published in the Veterinary Record, 1996.
+
+```{r, message=FALSE, echo=FALSE}
+donkeys = read_csv(here::here("data/donkeys/donkeys.csv"))
+```
+
+```{r}
+donkeys
+```
+
+The goal is to predict body weight using other, more easily measured variables.
+
+---
+
+## Example: Donkeys!
+
+```{r, echo=FALSE, fig.dim=c(8,4)}
+g1 <- ggplot(donkeys, aes(x=Heartgirth, y=Bodywt)) + geom_point(alpha=0.5)
+g2 <- ggplot(donkeys, aes(x=Umbgirth, y=Bodywt)) + geom_point(alpha=0.5)
+g3 <- ggplot(donkeys, aes(x=Length, y=Bodywt)) + geom_point(alpha=0.5)
+g4 <- ggplot(donkeys, aes(x=Height, y=Bodywt)) + geom_point(alpha=0.5)
+g5 <- ggplot(donkeys, aes(x=Sex, y=Bodywt)) + geom_boxplot()
+g6 <- ggplot(donkeys, aes(x=Age, y=Bodywt)) + geom_point(alpha=0.5)
+g1 + g2 + g3 + g4 + g5 + g6 + plot_layout(ncol=3)
+```
+
+---
+
+Model `Bodywt` in terms of `Heartgirth`, `Umbgirth`, `Length`, `Height`.
+
+```{r}
+model1 = lm(Bodywt ~ Heartgirth + Umbgirth + Length + Height, data=donkeys)
+summary(model1)
+```
 
 ---
 
 class: inverse
 
-TODO: Add additional exercises here!!!
+## Your turn
+
+Open `models01.R` and try:
+
+1. Dropping `Height` from the model.
+2. Adding `Sex` to the model.
+
+---
+
+## Tidy model output
+
+```{r}
+library(broom)
+model2 = lm(Bodywt ~ Heartgirth + Umbgirth + Length + Height + Sex, data=donkeys)
+glance(model2)
+```
+
+```{r}
+tidy(model2)
+```
+
+---
+
+.left-code[
+## Tidy model output
+
+```{r model1, eval=FALSE}
+tidy(model2) %>%
+  mutate(
+    low_ci = estimate - 2*std.error,
+    high_ci = estimate + 2*std.error
+    ) %>%
+  filter(term != "(Intercept)") %>%
+  ggplot() +
+  geom_linerange(
+    mapping = aes(
+      xmin = low_ci,
+      xmax = high_ci,
+      y = term)
+    ) +
+  geom_point(
+    mapping = aes(
+      x = estimate,
+      y = term)
+    )
+```
+]
+
+.right-plot[
+```{r, ref.label = "model1", echo=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Your turn
+
+Use `tidy()` to tidy up the model output and explore the other options for plotting the confidence intervals, such as `geom_errorbar()` or `geom_pointrange()`, which combines `geom_linerange` and `geom_point`.
+
+---
+
+.left-code[
+## Diagnostics
+
+```{r, diag1, eval=FALSE}
+plot(model2, which=1)
+```
+
+For quick diagnostics, use `plot`.
+
+Without the `which` argument it will produce four plots in turn. Specifying `which` gives you just the one you want.
+
+See `?plot.lm`
+
+Linearity doesn't seem to be well met!
+]
+
+.right-plot[
+```{r, ref.label="diag1", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Transformation
+
+```{r diag2, eval=FALSE}
+logmod = lm(log(Bodywt) ~
+              Heartgirth +
+              Umbgirth +
+              Length +
+              Height +
+              Sex,
+            data=donkeys)
+
+plot(logmod, which=1,
+     add.smooth=FALSE)
+```
+
+Better?
+]
+
+.right-plot[
+```{r, ref.label="diag2", echo=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Try yourself
+
+Check the other diagnostic plots out. You can get 4 plots all at once by running:
+
+`par(mfrow=c(2,2))`
+
+first. (This is a base R graphics incantation)
+
+---
+
+## Generalised linear models
+
+Models where the outcome is modelled by something other than the normal distribution are handled using `glm` rather than `lm`, short for "generalised linear model".
+
+You have the usual selection of count models (e.g. Poisson) or binary outcomes (e.g. Logistic regression), and can specify various link functions between the linear predictor and the outcome for other regressions (e.g. Probit).
+
+The same sets of functions (e.g. `summary`, `anova`, `plot`, `coef`, `predict`) work the same way. The tidy versions thereof also work the same, but importantly, return the same format (same column names), so working with multiple model types is made simpler.
+
+---
+
+.pull-left[## Example: Titanic survival
+
+```{r, echo=FALSE, message=FALSE}
+titanic <- read_csv(here::here("data/titanic/titanic.csv")) %>%
+  mutate(across(everything(), as_factor))
+```
+
+```{r titanic1, eval=FALSE}
+titanic
+summary(titanic)
+```
+
+The goal is to predict `Survived` based on the other categorical variables.
+
+We'll use logistic regression for this, but could use any classification technique.
+]
+
+.pull-right[
+```{r, ref.label="titanic1", echo=FALSE }
+```
+]
+
+---
+
+```{r}
+titanicmod1 <- glm(Survived ~ Class + Sex + Age, family=binomial, data=titanic)
+summary(titanicmod1)
+```
+
+---
+
+.left-code[
+## Plotting odds ratios
+
+```{r, titanic2, eval=FALSE}
+titanicmod1 %>%
+  tidy() %>%
+  mutate(
+    OR = exp(estimate),
+    low_ci = exp(estimate -
+                   2*std.error),
+    high_ci = exp(estimate +
+                    2*std.error)
+    ) %>%
+  ggplot() +
+  geom_pointrange(
+    mapping=aes(
+      x=OR,
+      xmin=low_ci,
+      xmax=high_ci,
+      y=term
+    )
+  ) +
+  geom_vline(xintercept=1,
+             col='blue') +
+  scale_x_log10()
+```
+]
+
+.right-plot[
+```{r, ref.label="titanic2", echo=FALSE}
+```
+]
+---
+
+class: inverse
+
+## Try yourself
+
+Open `models02.R` to reproduce the plot above.
+
+Try colouring the variables as protective or risky.
+
+Consider removing the intercept term.
+
+---
+
+## Interactions
+
+An interaction between two predictors, allowing the effect of a variable on the response to change
+based on the value of the other variable can be done by using a colon:
+
+```{r, eval=FALSE}
+y ~ A + B + A:B
+```
+
+means that the effect of `A` on `y` may change as `B` changes. Similarly, the effect of `B` on `y` may change as `A` changes.
+
+A short-hand for this is `y ~ A*B`.
+
+e.g. we could see if the effect of `Sex` changes depending on `Age` (presumably children were more likely to survive regardless of Sex).
+
+---
+
+```{r}
+titanicmod2 <- glm(Survived ~ Class + Sex * Age, family=binomial, data=titanic)
+summary(titanicmod2)
+```
+
+---
+
+class: inverse
+
+## Try yourself
+
+Try producing the odds ratio plot for this second model.
+
+Have a think about how you might better display the sex and age differences.
+
+---
+
+## Combining variables and refitting
+
+One way to potentially get a better visualisation of the effect of age and sex is to combine them into a single variable
+
+```{r}
+titanic_comb = titanic %>% unite(SexAge, Sex, Age, sep=" ") %>%
+  mutate(SexAge = fct_relevel(SexAge, "Male Adult"))
+titanicmod3 = glm(Survived ~ Class + SexAge, family=binomial, data=titanic_comb)
+titanicmod3 %>% tidy() %>%
+  filter(str_detect(term, "SexAge"))
+```
+
+We could then extract the `term` argument to pull `Sex` and `Age` out separately.
+
+---
+
+## Combining variables, refitting, then separating
+
+With a bit of effort, we can recode the variables back to what they were.
+
+```{r}
+plot_me <- 
+  titanicmod3 %>% tidy() %>%
+  filter(str_detect(term, "SexAge")) %>%
+  tidyr::extract(term, into=c("Sex", "Age"), regex="SexAge(.*) (.*)") %>%
+  mutate(OR = exp(estimate),
+         low_ci = exp(estimate - 2*std.error),
+         high_ci = exp(estimate + 2*std.error)) %>%
+  select(Sex, Age, OR, low_ci, high_ci)
+plot_me
+```
+
+---
+
+class: inverse
+
+## Try yourself
+
+Open `models03.R` to grab the above code.
+
+Do a plot of these odds ratios by using one of `Sex` or `Age` on the axes, and the other as a colour.
+
+You might need to play with `position="dodge"`.
+
+Consider adding a new row with the Male Adult (with `OR`, `low_ci` and `high_ci` set to 1).
+
+---
+
+class: inverse
+
+## More exercises
+
+TODO: Grab some other dataset for this one??/
