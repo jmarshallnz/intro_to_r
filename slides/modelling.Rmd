@@ -50,9 +50,8 @@ We can start simply with standard linear regression.
 In fact, let's go further, and dive straight into multiple linear regression.
 
 Recall that multiple linear regression takes the form
-$$
-y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_p x_{ip} + \epsilon_i
-$$
+
+$$y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_p x_{ip} + \epsilon_i$$
 where we assume the errors or residuals are normally distributed $\epsilon_i \sim \mathsf{Normal}(0, \sigma^2)$.
 
 We define this type of model in R using a **formula**:
