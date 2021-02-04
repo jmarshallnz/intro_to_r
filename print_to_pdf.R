@@ -4,8 +4,8 @@ library(rvest)
 
 to_pdf <- 1:3
 
-files = data.frame(html = file.path('lectures', sprintf('lecture%02i.html', to_pdf)),
-                   pdf = file.path('lectures', sprintf('lecture%02i.pdf', to_pdf)))
+files = data.frame(html = list.files("slides", "*.html", full.names = TRUE)) %>%
+  mutate(pdf = str_replace(html, ".html$", ".pdf"))
 
 do_pdf <- function(html, pdf) {
   temp_html <- tempfile(tmpdir="lectures", fileext=".html")
