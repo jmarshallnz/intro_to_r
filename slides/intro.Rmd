@@ -60,6 +60,28 @@ j.c.marshall@massey.ac.nz |  angelin-bonnet@massey.ac.nz
 
 ---
 
+## Who am I?
+
+.pull-left[
+<img src="graphics/oab/milo.jpg" height=450>
+]
+
+
+.pull-right[
+
+
+- I'm a PhD student in (bio)statistics
+
+- I'm interested in analysis of large biological datasets, networks, and visualisation
+
+- Currently studying multi-omics data integration and biological networks inference
+
+<br>
+
+<img src="graphics/oab/random_plots.png" height=200 width=650>
+]
+---
+
 class: middle, inverse
 
 # Who are you?
