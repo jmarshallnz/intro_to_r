@@ -5,6 +5,9 @@ library(rvest)
 files = data.frame(html = list.files("slides", "*.html", full.names = TRUE)) %>%
   mutate(pdf = str_replace(html, ".html$", ".pdf"))
 
+#files = data.frame(html = "slides/modelling.html") %>%
+#  mutate(pdf = str_replace(html, ".html$", ".pdf"))
+
 do_pdf <- function(html, pdf) {
   temp_html <- tempfile(tmpdir="slides", fileext=".html")
   # parse the HTML and remove any shiny iframes
