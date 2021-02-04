@@ -466,4 +466,6 @@ class: inverse
 
 ## More exercises
 
-TODO: Grab some other dataset for this one??/
+In `campylobacteriosis.R` there is campylobacteriosis cases in each district health board in NZ from 2008 through 2020.
+
+Look at modelling these data. It's count data, so you might use `family=poisson`. An offset with the log of Population would be useful, and by the looks of the data it's highly seasonal, so suggest a categorical variable for month, and then perhaps just a linear trend?
