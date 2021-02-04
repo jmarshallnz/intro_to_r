@@ -25,12 +25,7 @@ In addition, download the materials below.
 
 Presentation slides are linked below.
 
-Materials for exercises will be available here the week of the 8th of February.
-
-```{r, echo=FALSE, eval=FALSE}
-#All the material for exercises is available [in this zip file](intro_to_r.zip). Unzip this to
-#a convenient location, and open up `intro_to_r.Rproj` to load RStudio.
-```
+All the material for exercises is available [in this zip file](intro_to_r.zip). Unzip this to a convenient location, and open up `intro_to_r.Rproj` to load RStudio.
 
 ### Timetable
 
