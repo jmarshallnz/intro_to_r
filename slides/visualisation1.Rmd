@@ -470,7 +470,7 @@ Find the mistake and fix it.
 
 Aesthetics are mapped to data via the `aes()` function passed to the `mapping` parameter of each geometry layer.
 
-What this does is define a map between features of the plot (`x`, `y`, `colour`) to features of our data (columns).
+What this does is define a map between features of the plot (`x`, `y`, `colour`) and features of our data (columns).
 
 When this is done, `ggplot` automatically adds a scale or guide so you know which styling maps
 to which parts of your data.
@@ -835,7 +835,7 @@ You can set a chart title (and subtitles or captions) using
 
 ```{r, eval=FALSE}
 labs(title = "A useful title",
-     subtitle = "Shown smaller, under teh title",
+     subtitle = "Shown smaller, under the title",
      caption = "Shown in the bottom-right, useful for data source")
 ```
 

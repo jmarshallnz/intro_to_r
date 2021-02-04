@@ -35,7 +35,7 @@ class: middle
 
 ## Scales
 
-Each aesthetic has an associated scale. `x` and `y` have axes, `colour` has a guide. These scales can involve a transformation (e.g. a lot scale) or limits, or we can choose what colours to associate with each group.
+Each aesthetic has an associated scale. `x` and `y` have axes, `colour` has a guide. These scales can involve a transformation (e.g. a log scale) or limits, or we can choose what colours to associate with each group.
 
 We do this through the `scale_` functions. e.g.
   - `scale_x_log10()` to switch to a log scale,
@@ -522,6 +522,8 @@ waitoetoe = filter(hrc, Site == "manawatu at u/s pncc stp")
 hokowhitu = filter(hrc, Site == "manawatu at teachers college")
 ```
 
+We'll find out more about the magic of `filter` when we look at Data Transformation. Note the two equal signs here (`==`) means "is equal to". This differs from a single equals sign which is "set equal to".
+
 ---
 
 ## Comparing sites
@@ -614,6 +616,8 @@ The better way to do it is to combine the two datasets and let `ggplot2` split o
 two_sites =
   filter(hrc, Site %in% c("manawatu at u/s pncc stp", "manawatu at teachers college"))
 ```
+
+The `%in%` command here means "is in". We'll see this more when we do Data Transformation.
 
 ---
 

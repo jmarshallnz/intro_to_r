@@ -140,9 +140,9 @@ class: inverse
 In `dplyr02.R`,
 
 1. Find the largest (maximum) number of students in any row.
-2. Find the median number of students in a row.
+2. Find the median number of students across the rows.
 3. What is the lowest and highest year levels in the data?
-4. Find the number of Maori students in year 9 (hint: `filter` then `summarise`)
+4. Find the number of Māori students in year 9 (hint: `filter` then `summarise`)
 
 ---
 

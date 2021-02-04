@@ -303,7 +303,7 @@ Arrange the `roll` rows by number of students, ascending then descending.
 
 ## Combining `filter` and `arrange`
 
-Let's look at post-2013 values:
+Let's look at post-2012 values:
 
 ```{r}
 after2012 = filter(hrc, Date >= '2013-01-01')
