@@ -2,9 +2,11 @@
 
 # Load our libraries
 library(tidyverse)
+library(broom)
 
 # read in the data
-titanic = read_csv("data/titanic/titanic.csv")
+titanic = read_csv("data/titanic/titanic.csv") %>%
+  mutate(Survived = as_factor(Survived)) # outcome needs to be a factor for `glm`
 
 # combine sex and age
 titanic_comb <- titanic %>% unite(SexAge, Sex, Age, sep=" ") %>%
