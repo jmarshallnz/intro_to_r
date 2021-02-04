@@ -42,7 +42,7 @@ j.c.marshall@massey.ac.nz |  angelin-bonnet@massey.ac.nz
 
 ---
 
-## Who am I?
+## Who is Jonathan?
 
 <div align="center">
 <span class='inline'>
@@ -60,26 +60,21 @@ j.c.marshall@massey.ac.nz |  angelin-bonnet@massey.ac.nz
 
 ---
 
-## Who am I?
+## Who is Olivia?
 
-.pull-left[
-<img src="graphics/oab/milo.jpg" height=450>
-]
+<div align="center">
+  <span class='inline'>
+    <img src="graphics/oab/milo.jpg" style="width: 240px;" align="center">
+    <img src="graphics/oab/random_plots.png" style="width: 800px;" align="center">
+  </span>
+</div>
 
+- I'm a PhD student in (bio)statistics.
 
-.pull-right[
+- I'm interested in analysis of large biological datasets, networks, and visualisation.
 
+- Currently studying multi-omics data integration and biological networks inference.
 
-- I'm a PhD student in (bio)statistics
-
-- I'm interested in analysis of large biological datasets, networks, and visualisation
-
-- Currently studying multi-omics data integration and biological networks inference
-
-<br>
-
-<img src="graphics/oab/random_plots.png" height=200 width=650>
-]
 ---
 
 class: middle, inverse
