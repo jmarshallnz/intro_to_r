@@ -25,7 +25,7 @@ In addition, download the materials below.
 
 Presentation slides are linked below.
 
-All the material for exercises is available [in this zip file](intro_to_r.zip). Unzip this to a convenient location, and open up `intro_to_r.Rproj` to load RStudio.
+All the material for exercises are available [in this zip file](intro_to_r.zip). Unzip this to a convenient location, and open up `intro_to_r.Rproj` to load RStudio.
 
 ### Timetable
 
@@ -53,3 +53,12 @@ All the material for exercises is available [in this zip file](intro_to_r.zip). 
 | 1:45 - 3:30  | [Modelling](modelling.html) |
 | 3:30 - 4:00  | **Afternoon tea** |
 | 4:00 - 5:00  | Catchup/revision |
+
+
+### Solutions
+
+Solutions to the main set of exercises are available [in this zip file](intro_to_r_solutions.zip).
+
+### Source code for slides
+
+[The course Github repository](https://github.com/jmarshallnz/intro_to_r) has all the R markdown files that produced the slides in case you're interested :)
