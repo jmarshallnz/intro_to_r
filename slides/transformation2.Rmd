@@ -356,9 +356,12 @@ class: inverse
 Open up `dplyr03.R` and answer these four questions:
 
 1. Which are the best or worst sites on average (e.g. by Median)?
-2. Which sites do we not have much data on?
-3. Which sites are new?
-4. Which sites are tested infrequently?
+
+2. Which sites do we not have much data on? *Hint: How many observations per site?*
+
+3. Which sites are new? *Hint: Find the first date for each site, then order by the first date.*
+
+4. Which sites are tested infrequently? *Hint: Find the first and last date for each site, then the difference between them to get the time each site has been tested over. The number of observations then helps get the frequency.*
 
 ---
 
