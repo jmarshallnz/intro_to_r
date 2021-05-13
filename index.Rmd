@@ -1,64 +1,55 @@
 ---
-title: "Introduction to RStudio"
+title: "Introduction to Visualisation with RStudio"
 subtitle: "Massey University"
-date: "11-12th February 2021"
+date: "28th June 2021"
 output: html_document
 ---
 
-Introduction to RStudio is a short course introducing people to R and RStudio.
+Introduction to Visualisaiton with RStudio is a 2 hour zoom session introducing
+people to how to produce charts of data using `ggplot2` in RStudio.
 
-The presenters are Jonathan Marshall and Olivia Angelin-Bonnet.
-
-### Venue
-
-The statistics computing laboratory in Science Tower B room 3.18 (ScB3.18).
+The presenter is Jonathan Marshall.
 
 ### Preparation
 
-If you're bringing your own laptop, then please install R and RStudio beforehand.
+You'll need a device that can both run RStudio as well as Zoom. We recommend a laptop or desktop computer so that you can share your screen.
+
+If you haven't alreayd, make sure you install R and RStudio before the workshop:
 
 [Click here for instructions on downloading and installing R and RStudio](downloading.html)
 
-In addition, download the materials below.
+In addition, download the materials below:
 
 ### Materials
 
 Presentation slides are linked below.
 
-All the material for exercises are available [in this zip file](intro_to_r.zip). Unzip this to a convenient location, and open up `intro_to_r.Rproj` to load RStudio.
+All the material for exercises are available [in this zip file](intro_to_vis.zip). Unzip this to a convenient location, and open up `intro_to_R.Rproj` to load RStudio.
 
-### Timetable
+### Content
 
-**Thursday 11th February 2021**
+We'll be covering:
 
-| Time          | What we'll do         |
-|---------------|-----------------------|
-| 9:00 - 9:10   | [Introduction](intro.html) |
-| 9:10 - 10:40  | [Visualisation 1](visualisation1.html) |
-| 10:40 - 11:00 | **Morning tea**           |
-| 11:00 - 12:45 | [Visualisation 2](visualisation2.html) |
-| 12:45 - 1:45 | **Lunch** |
-| 1:45 - 3:30  | [Data Transformation 1](transformation1.html) |
-| 3:30 - 4:00  | **Afternoon tea** |
-| 4:00 - 5:00  | Catchup/revision |
+- The use of `ggplot2` for charts in RStudio.
 
-**Friday 12th February 2021**
+- The **Recipe** of a `ggplot2` chart.
 
-| Time          | What we'll do         |
-|---------------|-----------------------|
-| 9:00 - 10:40  | [Data Transformation 2](transformation2.html) |
-| 10:40 - 11:00 | **Morning tea**           |
-| 11:00 - 12:45 | [Tidying Data](tidying.html) |
-| 12:45 - 1:45 | **Lunch** |
-| 1:45 - 3:30  | [Modelling](modelling.html) |
-| 3:30 - 4:00  | **Afternoon tea** |
-| 4:00 - 5:00  | Catchup/revision |
+- How to map your data to features of a chart.
 
+- How to change aesthetics.
+
+- Using more than one geometric layer in a chart.
+
+- Labeling charts.
+
+- Changing scales and adding colour.
+
+[Click here for the slides.](visualisation.html)
 
 ### Solutions
 
-Solutions to the main set of exercises are available [in this zip file](intro_to_r_solutions.zip).
+Solutions to the exercises will be available [in this zip file](visualisation_solutions.zip) after the session.
 
-### Source code for slides
+### Source code for material
 
-[The course Github repository](https://github.com/jmarshallnz/intro_to_r) has all the R markdown files that produced the slides in case you're interested :)
+[The course Github repository](https://github.com/jmarshallnz/intro_to_r/tree/visualisation_by_zoom) has all the R markdown files that produced the slides in case you're interested :)

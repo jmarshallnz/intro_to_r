@@ -1,0 +1,1319 @@
+---
+title: 'Visualisation using RStudio'
+output:
+  xaringan::moon_reader:
+    css: [default, default-fonts, "custom.css"]
+    nature:
+      highlightStyle: tomorrow
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(palmerpenguins)
+penguins = na.omit(penguins)
+#data(package = 'palmerpenguins')
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.dim=c(4.8, 4.5), fig.retina=2, out.width="100%")
+```
+
+class: middle
+
+## Welcome
+
+---
+
+## Who am I?
+
+<div align="center">
+<span class='inline'>
+  <a href="http://instagram.com/monstamini"><img src="graphics/jm/mini.png" style="width: 320px;" align="center"></a>
+  <img src="graphics/jm/chilli.jpg" style="width: 320px;" align="center">
+  <img src="graphics/jm/sam.jpg" style="width: 320px;" align="center">
+</span>
+</div>
+
+- I'm a statistician with two pets and one kid.
+
+- Interested in statistical modelling of disease.
+
+- Two main areas: [spatio-temporal modelling](https://jmarshallnz.github.io/talks/nzsa2016), and [source attribution](jmarshallnz.github.io/talks/OHA2019).
+
+---
+
+class: middle, inverse
+
+# Who are you?
+
+---
+
+## Plan today
+
+- Learn a bit of `ggplot2` using RStudio.
+
+- Workshop style. I'll talk for a bit, then you'll do stuff for a bit in breakout rooms.
+
+- R/RStudio is something that takes a while to learn. Generally you learn while doing.
+
+- This course gives you a **tiny** taster. Copy and paste (and google!) is your friend!
+
+---
+
+## What we aren't going to do
+
+- Analyse your data.
+
+- Answer questions outside of todays exercises.
+
+If you want that, then we have some other options for you:
+
+- [Introduction to R/RStudio](https://www.massey.ac.nz/~jcmarsha/intro_to_r) is a 2 day course we run each year (January/February).
+
+- If you want statistical consulting, then contact [Jonathan Godfrey](mailto:a.j.godfrey@massey.ac.nz).
+
+---
+
+## Let's get RStudio going
+
+- You should already have R and RStudio installed.
+
+- You should have already [downloaded the zip file](https://www.massey.ac.nz/~jcmarsha/visualisation_by_zoom/intro_to_vis.zip)
+
+- Unzip to somewhere convenient.
+
+- Double click on `intro_to_r.Rproj`
+
+---
+
+## RStudio projects
+
+- The `intro_to_r.rProj` acts as a 'base folder'.
+
+- Anything we load from there will be relative to the base.
+
+- e.g. to load some data, we'll be using paths that look like: `"data/<blah>"`
+
+- It is generally a good idea to use an RStudio project for each bit of analysis.
+
+- Then all data/code etc can be organised in there, and it's somewhat self-contained.
+
+- You can still read data from elsewhere - just supply a fully qualified path.
+
+---
+
+## Finding help with RStudio
+
+- The cheatsheets in RStudio (Help -> Cheatsheets).
+
+- The tidyverse website: https://tidyverse.org
+
+- RStudio cloud primers: https://rstudio.cloud/learn/primers
+
+- R for Datascience book: https://r4ds.had.co.nz
+
+- Google is super useful! Include "R" or "RStudio" or maybe the name of the package "ggplot" or "dplyr" in
+your query.
+
+- Check the date of the google responses: older results might well be out of date.
+
+---
+
+## Visualisation in R/RStudio
+
+There are three main charting 'systems' in R/RStudio:
+
+- base graphics. Included with the R `base` package. Commands like `plot`, `barplot`, `boxplot`.
+
+- lattice graphics. Included with the R `lattice` package. Commands like `xyplot` etc.
+
+- `ggplot2` graphics. From the `ggplot2` package. **This is what we'll use.**
+
+All have advantages and disadvantages. We teach `ggplot2` as it is the most flexible and consistent
+way of achieving publication ready graphics.
+
+---
+
+class: middle
+
+# `ggplot2`
+
+---
+
+## What is `ggplot2`
+
+- `ggplot2` is a package for R by [Hadley Wickham](http://hadley.nz/)
+
+- Based on the **grammar of graphics**
+
+- Uses a consistent 'language' to produce different plots
+
+- Very flexible, particularly for complex plots
+
+- Everything is editable
+
+- **BUT: Quite a lot to type!**
+
+---
+
+.left-code[
+## Quite a lot to type
+```{r quakes, eval=FALSE}
+ggplot(data = quakes) +
+  geom_point(
+    mapping = aes(
+      x = long,
+      y = lat
+    )
+  )
+```
+]
+
+.right-plot[
+```{r ref.label="quakes", echo=FALSE}
+```
+]
+
+---
+
+## Helpful resources
+
+- The `ggplot2` cheatsheet in RStudio: https://rstudio.org/links/data_visualization_cheat_sheet
+
+- The `ggplot2` book: https://ggplot2-book.org/
+
+- The `ggplot2` page on tidyverse.org: https://ggplot2.tidyverse.org/
+
+- Search stackoverflow.com: https://stackoverflow.com/questions/tagged/ggplot2?sort=faq
+
+---
+
+## What is the grammar of graphics?
+
+Basic idea: Specify plot building blocks and combine them to produce a plot.
+
+- Data. Always use a `data.frame`
+
+- Aesthetics. Mapping of your data to a plot aesthetic (position/colour/fill/shape)
+
+- Geometries. Points/Lines/Boxplots/Histograms etc
+
+- Statistical transformations
+
+- Scales and coordinate systems
+
+- Position adjustments
+
+- **Faceting** (small multiple plots)
+
+---
+
+## Example: Penguins!
+
+Data today were collected by [Dr Kristen Gorman](https://www.uaf.edu/cfos/people/faculty/detail/kristen-gorman.php) and the [Palmer Station, Antartica Long Term Ecological Research Network](https://pal.lternet.edu/).
+
+You can get it for R at https://github.com/allisonhorst/palmerpenguins
+
+```{r}
+penguins
+```
+
+---
+
+.left-code[
+```{r peng1, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    )
+```
+]
+
+.right-plot[
+```{r ref.label="peng1", echo=FALSE}
+```
+]
+---
+
+## Recipe
+
+To create a chart we need to:
+
+- Tell R we want a plot with `ggplot()`.
+
+- Tell `ggplot` what data we are plotting with `data=penguins`.
+
+- Choose what type of chart we want by adding a layer (geometry), e.g. `geom_point`.
+
+- Tell the geometry how to map from visual content/features to data with `mapping = aes()`.
+
+All our charts will follow the same basic recipe. We might just add a few more ingredients!
+
+---
+
+.left-code[
+## Recipe
+```{r peng2, eval=FALSE}
+ggplot(data = penguins) + #<<
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    )
+```
+Tell `ggplot` what data we want to plot.
+]
+
+.right-plot[
+```{r ref.label="peng2", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Recipe
+```{r peng3, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point( #<<
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    ) #<<
+```
+Choose the type of chart we want.
+]
+
+.right-plot[
+```{r ref.label="peng3", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Recipe
+```{r peng4, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes( #<<
+      x = flipper_length_mm, #<<
+      y = body_mass_g #<<
+      ) #<<
+    )
+```
+
+Map plot features to data features.
+]
+
+.right-plot[
+```{r ref.label="peng4", echo=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Try yourself
+
+- Go to RStudio and open `ggplot01.R` in the `01_visualisation` folder.
+
+- If prompted, install packages.
+
+- Run the code to get the plot.
+
+---
+
+.left-code[
+## Mapping colour to data
+```{r peng7, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      colour = species #<<
+      )
+    )
+```
+
+- Automatically adds a guide or legend.
+
+- `x` and `y` have guides too (the axes).
+]
+
+.right-plot[
+```{r, ref.label="peng7", echo=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Try yourself
+
+Alter the code in `ggplot01.R` to colour by species.
+
+---
+
+## Remember the Recipe!
+
+- Tell R we want a plot with `ggplot()`.
+
+- Tell `ggplot` what data we are plotting with `data=penguins`.
+
+- Choose what type of chart we want by adding a layer (geometry), e.g. `geom_point()`.
+
+- Tell the geometry how to map from visual content/features to data with `mapping = aes()`.
+
+---
+
+.left-code[
+## Remember the Recipe!
+```{r peng2b, eval=FALSE}
+ggplot(data = penguins) + #<<
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    )
+```
+Tell `ggplot` what data we want to plot.
+]
+
+.right-plot[
+```{r ref.label="peng2b", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Remember the Recipe!
+```{r peng3b, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point( #<<
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    ) #<<
+```
+Choose the type of chart we want.
+]
+
+.right-plot[
+```{r ref.label="peng3b", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Remember the Recipe!
+```{r peng4b, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes( #<<
+      x = flipper_length_mm, #<<
+      y = body_mass_g #<<
+      ) #<<
+    )
+```
+
+Map plot features to data features.
+]
+
+.right-plot[
+```{r ref.label="peng4b", echo=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Code along!
+
+Follow along as we break down what the code in `ggplot01.R` is doing.
+
+---
+
+class: middle
+
+# Aesthetics
+
+## Setting or mapping features of the plot
+
+---
+
+## Aesthetics
+
+The visual content or features of the plot are **aesthetics**. Things like:
+
+- position of points (`x`, `y`)
+
+- height of bars (`y`)
+
+- colour of points (`colour`, `alpha`)
+
+- colour inside regions (`fill`)
+
+- point type and size (`shape`, `size`)
+
+All of these can either be **set to a single value**, or allowed to **change by mapping them to data**.
+
+---
+
+.left-code[
+## Setting a colour
+```{r peng5, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      ),
+    colour = 'purple' #<<
+    )
+```
+
+To **set** to a single value, place inside the `geom_*()` function.
+]
+
+.right-plot[
+```{r, ref.label="peng5", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Setting versus Mapping
+```{r peng6, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      colour = 'purple' #<<
+      )
+    )
+```
+To **set** to a single value, place inside the `geom_*()` function.
+
+But not inside the `aes()` function!
+
+This is like adding a new column, and setting every entry to `purple`, so you have a grouping variable with one group `purple`.
+]
+
+.right-plot[
+```{r, ref.label="peng6", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Mapping colour to data
+```{r peng7b, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      colour = species #<<
+      )
+    )
+```
+
+To **map to a column of data** place inside the `aes()` function.
+]
+
+.right-plot[
+```{r, ref.label="peng7b", echo=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Try yourself
+
+Load up `ggplot02.R`.
+
+This code is trying to change the shape of the points to squares, but
+we've made a mistake.
+
+Find the mistake and fix it.
+
+---
+
+## Mapping aesthetics
+
+Aesthetics are mapped to data via the `aes()` function passed to the `mapping` parameter of each geometry layer.
+
+What this does is define a map between features of the plot (`x`, `y`, `colour`) and features of our data (columns).
+
+When this is done, `ggplot` automatically adds a scale or guide so you know which styling maps
+to which parts of your data.
+
+e.g. the `x` and `y` aesthetics automatically have an axis scale. The `colour` aesthetic will give a legend or colour scale.
+
+**Any time you want a feature of the plot to change based on data, it needs to be in `aes()`**
+
+---
+
+## Different species
+
+```{r}
+aes(x = flipper_length_mm, 
+    y = body_mass_g,
+    colour = species)
+```
+
+---
+
+.left-code[
+## Different species
+```{r peng8, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      colour = species #<<
+      )
+    )
+```
+`colour` changes with data (mapping).
+]
+
+.right-plot[
+```{r, ref.label="peng8", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Different species
+```{r peng9, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      size = species #<<
+      ),
+    alpha = 0.5 #<<
+    )
+```
+`size` changes with data (mapping).
+
+`alpha` is fixed for all points (setting).
+]
+
+.right-plot[
+```{r, ref.label="peng9", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Different species
+```{r peng10, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      shape = species #<<
+      ),
+    size = 2 #<<
+    )
+```
+`shape` changes with data (mapping).
+
+`size` is fixed for all points (setting).
+]
+
+.right-plot[
+```{r, ref.label="peng10", echo=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Try yourself
+
+Experiment with altering the colour, size, shape or alpha of the points in `ggplot02.R`.
+
+---
+
+class: middle
+
+# Geometry layers
+
+---
+
+## Other layers/geometries
+
+Instead of the `geom_point` layer, we could use something else.
+
+Last time I counted there were 50 different geometry layers to choose from.
+
+And there are add-on packages with more!
+
+---
+
+.left-code[
+## `geom_point()`
+```{r peng11, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point( #<<
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    )
+```
+]
+
+.right-plot[
+```{r, ref.label="peng11", echo=FALSE}
+```
+]
+
+---
+
+.left-code[
+## `geom_smooth()`
+```{r peng12, eval=FALSE}
+ggplot(data = penguins) +
+  geom_smooth( #<<
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    )
+```
+]
+
+.right-plot[
+```{r, echo=FALSE, message=FALSE}
+ggplot(data = penguins) +
+  geom_point(mapping = aes(x=flipper_length_mm, y=body_mass_g), alpha=0) +
+  geom_smooth(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    )
+```
+]
+
+---
+
+.left-code[
+## Adding layers
+```{r peng13, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    ) +
+  geom_smooth( #<<
+    mapping = aes( #<<
+      x = flipper_length_mm, #<<
+      y = body_mass_g #<<
+      ) #<<
+    ) #<<
+```
+]
+
+.right-plot[
+```{r, ref.label="peng13", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Too much typing!
+```{r peng14, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes( #<<
+      x = flipper_length_mm, #<<
+      y = body_mass_g #<<
+      ) #<<
+    ) +
+  geom_smooth(
+    mapping = aes( #<<
+      x = flipper_length_mm, #<<
+      y = body_mass_g #<<
+      ) #<<
+    )
+```
+]
+
+.right-plot[
+```{r, ref.label="peng14", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+
+.left-code[
+## Inheriting aesthetics
+```{r peng15, eval=FALSE}
+ggplot(data = penguins,
+       mapping = aes( #<<
+         x = flipper_length_mm, #<<
+         y = body_mass_g #<<
+         ) #<<
+       ) +
+  geom_point() +
+  geom_smooth()
+```
+Any mapping defined in the `ggplot()` function are inherited by other layers.
+]
+
+.right-plot[
+```{r, ref.label="peng15", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Unique aesthetics
+```{r peng16, eval=FALSE}
+ggplot(data = penguins,
+       mapping = aes(
+         x = flipper_length_mm,
+         y = body_mass_g
+         )
+       ) +
+  geom_point(
+    mapping = aes( #<<
+      colour = species #<<
+      ) #<<
+    ) +
+  geom_smooth()
+```
+You can override or add new aesthetics in each item.
+]
+
+.right-plot[
+```{r, ref.label="peng16", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Try yourself
+
+Add some code in `ggplot02.R` to add a smoother on top of the points.
+
+Take a look at the data visualisation cheat sheet (under the Help menu) to
+find some other geometries that you might be able to use for this type of data
+(two continuous measures), and try them out.
+
+---
+
+class: middle
+
+# Naming things
+
+---
+
+## Naming things: code style
+
+R code uses a lot of **functions**. The basic syntax for a function is:
+
+```{r, eval=FALSE}
+function_name(param1, param2, param3)
+```
+
+Functions can take a bunch of **parameters**. These are matched by name (if named), else by position.
+
+The code for our plot contains 3 functions:
+ - `ggplot(data = penguins)`
+ - `geom_point(mapping = aes(...))`
+ - `aes(x = flipper_length_mm, y = body_mass_g)`
+
+Note in each case we've named the parameters (i.e. `data = penguins`, `x = flipper_length_mm`). This is generally good practice. If unnamed you're relying on order, so this works too:
+
+```{r, eval=FALSE}
+ggplot(penguins) + geom_point(aes(flipper_length_mm, body_mass_g))
+```
+
+---
+
+## Naming things: titles and labels
+
+Charts should, as much as possible, be self-contained. They should tell the story without the viewer/reader having to figure out too much what each bit of the plot represents.
+
+- Concise, accurate axis labels, including units where relevant.
+
+- Concise, clear legend names and legend items.
+
+- A title (and possibly subtitle) that tells the story.
+
+- Possibly further captioning that helps (e.g. data sources, authorship).
+
+---
+
+.left-code[
+## Axis labels
+```{r peng17, eval=FALSE}
+ggplot(data = penguins,
+       mapping = aes(
+         x = flipper_length_mm,
+         y = body_mass_g
+         )
+       ) +
+  geom_point(
+    mapping = aes(
+      colour = species
+      )
+    ) +
+  geom_smooth() +
+  labs(x = "Flipper length (mm)", #<<
+       y = "Body mass (g)") #<<
+```
+]
+
+.right-plot[
+```{r, ref.label="peng17", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+## Titles and captions
+
+Titles and captions can also be changed using `labs`. This can be useful for adding data source information, or for helping the reader interpret the chart.
+
+You can set a chart title (and subtitles or captions) using
+
+```{r, eval=FALSE}
+labs(title = "A useful title",
+     subtitle = "Shown smaller, under the title",
+     caption = "Shown in the bottom-right, useful for data source")
+```
+
+---
+
+.left-code[
+## Titles tell the story
+```{r peng18, eval=FALSE}
+ggplot(data = penguins,
+       mapping = aes(
+         x = flipper_length_mm,
+         fill = species
+         )
+       ) +
+  geom_density(alpha = 0.5) +
+  labs(x = "Flipper length (mm)",
+       title = "Distribution of penguin flipper lengths")
+```
+This is a bad title. We can tell it's a distribution already!
+
+"Penguin" is the only useful bit.
+]
+
+.right-plot[
+```{r, ref.label="peng18", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Titles tell the story
+```{r peng19, eval=FALSE}
+ggplot(data = penguins,
+       mapping = aes(
+         x = flipper_length_mm,
+         fill = species
+         )
+       ) +
+  geom_density(alpha = 0.5) +
+  labs(x = "Flipper length (mm)",
+       title = "Penguin flipper length differs by species")
+```
+This is better.
+
+But surely it is obvious that flipper length would differ by species!
+]
+
+.right-plot[
+```{r, ref.label="peng19", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Titles tell the story
+```{r peng20, eval=FALSE}
+ggplot(data = penguins,
+       mapping = aes(
+         x = flipper_length_mm,
+         fill = species
+         )
+       ) +
+  geom_density(alpha = 0.5) +
+  labs(x = "Flipper length (mm)",
+       title = "Gentoo penguins have longer flippers")
+```
+This is even better.
+
+It's making the story clear.
+]
+
+.right-plot[
+```{r, ref.label="peng20", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+```{r, echo=FALSE, message=FALSE, fig.dim=c(6,3.5), fig.retina=3}
+border_plot <- read_csv(here::here("data/covid19/border_plot.csv"))
+ggplot(border_plot) +
+  aes(x=Date, y=fit) +
+  geom_col(aes(x=Date, y=cases_per_arrival), fill='red') +
+  geom_ribbon(aes(ymin=lwr, ymax=upr), alpha=0.3) +
+  geom_line() +
+  ylab("Detected COVID-19 positives (%)") +
+  xlab("") +
+  theme_minimal(base_size=10) +
+  ggtitle("The Mystery of the missing May: COVID-19 cases at the border",
+          subtitle = "Bars are cases per person, line and band is smoothed trend with uncertainty (GAM)")
+```
+
+---
+
+class: inverse
+
+## Try yourself
+
+Add titles or change axis labels as needed using `labs` in your charts from earlier.
+
+---
+
+class: middle
+
+# Scales and colours
+
+---
+
+## Scales
+
+Each aesthetic has an associated scale. `x` and `y` have axes, `colour` has a guide. These scales can involve a transformation (e.g. a log scale) or limits, or we can choose what colours to associate with each group.
+
+We do this through the `scale_` functions. e.g.
+  - `scale_x_log10()` to switch to a log scale,
+  - `scale_y_continuous` to define limits on a numeric y-axis, 
+  - `scale_colour_manual` for specifying colours manually.
+
+And lots more for specific circumstances.
+
+---
+
+.left-code[
+## Changing axis scales
+```{r peng21, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g
+      )
+    ) +
+  scale_x_continuous( #<<
+    limits = c(100, 300) #<<
+    ) #<<
+```
+]
+
+.right-plot[
+```{r, ref.label="peng21", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+## More data: Horizons regional council river quality
+
+We have counts of *E. coli* as an indicator of faecal contamination.
+
+```{r, message=FALSE, echo=FALSE}
+hrc <- read_csv(here::here("data/horizons_river_quality/horizons_river_ecoli.csv"))
+hrc
+```
+
+These data are available from Land, Air, Water Aotearoa, https://www.lawa.org.nz/download-data/
+
+---
+
+We have *E. coli* counts from 95 sites throughout the horizons regional council.
+
+```{r}
+count(hrc, Site)
+```
+
+---
+
+The counts can be summarised using
+
+```{r}
+summarise(hrc, min(Value), max(Value), median(Value))
+```
+
+You can see that we have very low counts (1) and very high counts (almost 200,000), with half the counts being less than 150.
+
+These counts naturally belong on a logarithmic scale.
+
+---
+
+.left-code[
+## Changing axis scales
+```{r hrc1, eval=FALSE}
+ggplot(data = hrc) +
+  geom_point(
+    mapping = aes(
+      x = Date,
+      y = Value
+      ),
+    alpha=0.5
+  )
+```
+]
+
+.right-plot[
+```{r, ref.label="hrc1", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Changing axis scales
+```{r hrc2, eval=FALSE}
+ggplot(data = hrc) +
+  geom_point(
+    mapping = aes(
+      x = Date,
+      y = Value
+      ),
+    alpha=0.5
+  ) +
+  scale_y_log10() #<<
+```
+]
+
+.right-plot[
+```{r, ref.label="hrc2", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Changing axis scales
+```{r hrc3, eval=FALSE}
+ggplot(data = hrc,
+       mapping = aes(
+         x = Date,
+         y = Value
+       )
+     ) +
+  geom_point(alpha=0.1) +
+  geom_smooth() +
+  scale_y_log10()
+```
+]
+
+.right-plot[
+```{r, ref.label="hrc3", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Try yourself
+
+In `ggplot03.R` we're plotting the HRC data using boxplots for each of 5 sites.
+
+Try changing the scale so it's logarithmic.
+
+You may wish to change colours or axis labels, and add a title.
+
+Experiment with differing geometries for this (we have a continuous variable and a discrete grouping variable). One option is
+using `geom_density` as the geometry with the `x` aesthetic for counts, and either `fill` or `colour` for grouping.
+
+---
+
+.left-code[
+## Changing colours
+```{r peng_col1, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      col = species
+      )
+    )
+```
+]
+
+.right-plot[
+```{r, ref.label="peng_col1", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Changing colours
+```{r peng_col2, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      col = species
+      )
+    ) +
+  scale_colour_manual( #<<
+    values = c( #<<
+      Adelie = "darkgreen", #<<
+      Chinstrap = "maroon", #<<
+      Gentoo = "orange" #<<
+    ) #<<
+  ) #<<
+```
+]
+
+.right-plot[
+```{r, ref.label="peng_col2", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+## Changing colours
+
+The `c()` function is short for 'combine'. In this case we're combining 3 colours together, naming them after each species.
+
+```{r, eval=FALSE}
+c(Adelie = "darkgreen", Chinstrap = "maroon", Gentoo = "orange")
+```
+
+---
+
+.left-code[
+## Changing colours: palettes
+```{r peng_col3, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      col = species
+      )
+    ) +
+  scale_colour_viridis_d() #<<
+```
+]
+
+.right-plot[
+```{r, ref.label="peng_col3", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+.left-code[
+## Changing colours: palettes
+```{r peng_col4, eval=FALSE}
+ggplot(data = penguins) +
+  geom_point(
+    mapping = aes(
+      x = flipper_length_mm,
+      y = body_mass_g,
+      col = species
+      )
+    ) +
+  scale_colour_brewer( #<<
+    palette = "Dark2" #<<
+    ) #<<
+```
+]
+
+.right-plot[
+```{r, ref.label="peng_col4", echo=FALSE, message=FALSE}
+```
+]
+
+---
+
+class: inverse
+
+## Try yourself
+
+Add or alter some colours of the Horizons regional council plot from `ggplot03.R`.
+
+Try switching from `SiteID` to `Site`, which has the names of the sites. You might
+need to swap the `x` and `y` variables around for some plot types (e.g. box, violin or dot plot).
+
+---
+
+class: inverse
+
+## More exercises
+
+Open up `quakes.R` to explore some earthquake data from around Fiji.
+
+1. Visualise the earthquake data by longitude and latitude.
+
+2. Try to add depth, magnitude or number of stations that the earthquake was detected at to the plot through the colour, shape, size etc aesthetics.
+
+3. Try out some different geometries (e.g. points, density2d, bin2d). You could try altering the amount of smoothing in `geom_density2d` using the `adjust` parameter.
+
+4. Try changing colours. e.g. experiment with different colour palettes.
+
+5. Instead of location, do a plot of magnitude versus number of stations detected. Presumably there'd be some relationship. What type of geometries might work best for that? Investigating `geom_jitter` might be useful here.
