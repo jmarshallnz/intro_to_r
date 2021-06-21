@@ -54,6 +54,8 @@ class: middle, inverse
 
 # Who are you?
 
+Introduce yourself briefly (what are you're researching?) in the chat window. .rhs[2 minutes]
+
 ---
 
 ## Plan today
@@ -82,15 +84,21 @@ If you want that, then we have some other options for you:
 
 ---
 
-## Let's get RStudio going
+class: inverse
+
+## Let's get RStudio going .rhs[**2 minutes**]
 
 - You should already have R and RStudio installed.
 
-- You should have already [downloaded the zip file](https://www.massey.ac.nz/~jcmarsha/visualisation_by_zoom/intro_to_vis.zip)
+- You should have already [downloaded the zip file](https://www.massey.ac.nz/~jcmarsha/visualisation_by_zoom/intro_to_vis.zip).
 
 - Unzip to somewhere convenient.
 
-- Double click on `intro_to_r.Rproj`
+- Double click on `intro_to_r.Rproj`.
+
+- Give a green tick reaction <img src="graphics/reaction-yes-button.png" /> when done.
+
+- If you have a problem, use the raise hand reaction <img src="graphics/reaction-raise-hand-button.png" /> to let us know.
 
 ---
 
@@ -328,13 +336,17 @@ Map plot features to data features.
 
 class: inverse
 
-## Try yourself
+## Try yourself .rhs[**3 minutes**]
 
 - Go to RStudio and open `ggplot01.R` in the `01_visualisation` folder.
 
 - If prompted, install packages.
 
 - Run the code to get the plot.
+
+- Use the green tick reaction <img src="graphics/reaction-yes-button.png" /> to let us know when you're done.
+
+- Use the raise hand reaction <img src="graphics/reaction-raise-hand-button.png" /> to ask for help.
 
 ---
 
@@ -365,7 +377,7 @@ ggplot(data = penguins) +
 
 class: inverse
 
-## Try yourself
+## Try yourself .rhs[**2 minutes**]
 
 Alter the code in `ggplot01.R` to colour by species.
 
@@ -555,7 +567,7 @@ To **map to a column of data** place inside the `aes()` function.
 
 class: inverse
 
-## Try yourself
+## Try yourself .rhs[**3 minutes**]
 
 Load up `ggplot02.R`.
 
@@ -665,7 +677,7 @@ ggplot(data = penguins) +
 
 class: inverse
 
-## Try yourself
+## Try yourself .rhs[**5 minutes**]
 
 Experiment with altering the colour, size, shape or alpha of the points in `ggplot02.R`.
 
@@ -838,7 +850,7 @@ You can override or add new aesthetics in each item.
 
 class: inverse
 
-## Try yourself
+## Try yourself .rhs[**5 minutes**]
 
 Add some code in `ggplot02.R` to add a smoother on top of the points.
 
@@ -1025,7 +1037,7 @@ ggplot(border_plot) +
 
 class: inverse
 
-## Try yourself
+## Try yourself .rhs[**3 minutes**]
 
 Add titles or change axis labels as needed using `labs` in your charts from earlier.
 
@@ -1173,7 +1185,7 @@ ggplot(data = hrc,
 
 class: inverse
 
-## Try yourself
+## Try yourself .rhs[**5 minutes**]
 
 In `ggplot03.R` we're plotting the HRC data using boxplots for each of 5 sites.
 
@@ -1293,7 +1305,7 @@ ggplot(data = penguins) +
 
 class: inverse
 
-## Try yourself
+## Try yourself .rhs[**5 minutes**]
 
 Add or alter some colours of the Horizons regional council plot from `ggplot03.R`.
 
@@ -1304,7 +1316,7 @@ need to swap the `x` and `y` variables around for some plot types (e.g. box, vio
 
 class: inverse
 
-## More exercises
+## More exercises .rhs[**10 minutes**]
 
 Open up `quakes.R` to explore some earthquake data from around Fiji.
 
