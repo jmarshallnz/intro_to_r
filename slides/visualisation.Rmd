@@ -228,7 +228,7 @@ Basic idea: Specify plot building blocks and combine them to produce a plot.
 
 Data today were collected by [Dr Kristen Gorman](https://www.uaf.edu/cfos/people/faculty/detail/kristen-gorman.php) and the [Palmer Station, Antartica Long Term Ecological Research Network](https://pal.lternet.edu/).
 
-You can get it for R at https://github.com/allisonhorst/palmerpenguins
+You can get it for R by installing the `palmerpenguins` package (from Packages menu in bottom right) or from https://github.com/allisonhorst/palmerpenguins
 
 ```{r}
 penguins
