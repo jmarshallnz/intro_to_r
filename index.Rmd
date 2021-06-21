@@ -2,7 +2,13 @@
 title: "Introduction to RStudio"
 subtitle: "Massey University"
 date: "TBD January/February 2022"
-output: html_document
+output:
+  html_document:
+    mathjax: null
+    highlight: null
+    self_contained: false
+    theme: null
+    css: default.css
 ---
 
 Introduction to RStudio is a short course introducing people to R and RStudio.
