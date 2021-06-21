@@ -338,7 +338,7 @@ class: inverse
 
 ## Try yourself .rhs[**3 minutes**]
 
-- Go to RStudio and open `ggplot01.R` in the `01_visualisation` folder.
+- Go to RStudio and open `ggplot01.R` in the `exercises` folder.
 
 - If prompted, install packages.
 
