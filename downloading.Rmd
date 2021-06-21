@@ -1,7 +1,13 @@
 ---
 title: "Downloading RStudio"
 author: "Jonathan Marshall"
-output: html_document
+output:
+  html_document:
+    mathjax: null
+    highlight: null
+    self_contained: false
+    theme: null
+    css: default.css
 ---
 
 RStudio is freely available and runs on Windows, Mac, and Linux operating systems. There are also web-based methods for running RStudio, but we recommend that you download the correct version for your operating system at the beginning of the semester.

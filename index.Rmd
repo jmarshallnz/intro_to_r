@@ -2,21 +2,43 @@
 title: "Introduction to Visualisation with RStudio"
 subtitle: "Massey University"
 date: "28th June 2021"
-output: html_document
+output:
+  html_document:
+    mathjax: null
+    highlight: null
+    self_contained: false
+    theme: null
+    css: default.css
 ---
 
-Introduction to Visualisaiton with RStudio is a 2 hour zoom session introducing
+Introduction to Visualisation with RStudio is a 2 hour zoom session introducing
 people to how to produce charts of data using `ggplot2` in RStudio.
 
 The presenter is Jonathan Marshall.
+
+### What will it be like?
+
+We'll use zoom for presentation and live demonstration and utilise breakout rooms to give you the chance to practice what you've learned. Each breakout room will have an experienced RStudio user to help you out.
+
+### Who should attend?
+
+This workshop is aimed at people who are just starting out with R and RStudio or `ggplot2`. We assume
+that we might have some attendees opening R and RStudio for the first time, or perhaps using `ggplot2`
+for the first time.
+
+If you're already familiar with R and RStudio, specifically with the `ggplot2` package for creating
+charts, then consider attending as a helper for the breakout rooms - helping others is an excellent
+way to help reinforce your own knowledge!
 
 ### Preparation
 
 You'll need a device that can both run RStudio as well as Zoom. We recommend a laptop or desktop computer so that you can share your screen.
 
-If you haven't alreayd, make sure you install R and RStudio before the workshop:
+If you haven't already, please install R and RStudio before the workshop:
 
 [Click here for instructions on downloading and installing R and RStudio](downloading.html)
+
+We recommend R version 4.0 or higher, and RStudio v1.4.
 
 In addition, download the materials below:
 
