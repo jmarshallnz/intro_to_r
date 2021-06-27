@@ -7,4 +7,4 @@ all_files <- c("intro_to_r.Rproj", exercise_files, data_files, extras)
 zip('intro_to_visualisation.zip', all_files)
 
 solution_files <- file.path("solutions", sprintf("ggplot%02i.R", 1:3))
-zip('visualisation_solutions.zip', all_files)
+zip('visualisation_solutions.zip', solution_files)
