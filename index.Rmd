@@ -1,7 +1,7 @@
 ---
 title: "Introduction to RStudio"
 subtitle: "Massey University"
-date: "11-12th February 2021"
+date: "TBD January/February 2022"
 output: html_document
 ---
 
@@ -29,7 +29,7 @@ All the material for exercises are available [in this zip file](intro_to_r.zip).
 
 ### Timetable
 
-**Thursday 11th February 2021**
+**TBD: Jan/Feb 2022**
 
 | Time          | What we'll do         |
 |---------------|-----------------------|
@@ -42,7 +42,7 @@ All the material for exercises are available [in this zip file](intro_to_r.zip).
 | 3:30 - 4:00  | **Afternoon tea** |
 | 4:00 - 5:00  | Catchup/revision |
 
-**Friday 12th February 2021**
+**TBD: Jan/Feb 2022**
 
 | Time          | What we'll do         |
 |---------------|-----------------------|
