@@ -252,6 +252,23 @@ ggplot(data = penguins) +
 ```{r ref.label="peng1", echo=FALSE}
 ```
 ]
+
+---
+
+class: inverse
+
+## Try yourself .rhs[**3 minutes**]
+
+- Go to RStudio and open `ggplot01.R` in the `exercises` folder.
+
+- If prompted, install packages.
+
+- Run the code to get the plot.
+
+- Use the green tick reaction <img src="graphics/reaction-yes-button.png" /> to let us know when you're done.
+
+- Use the raise hand reaction <img src="graphics/reaction-raise-hand-button.png" /> to ask for help.
+
 ---
 
 ## Recipe
@@ -331,22 +348,6 @@ Map plot features to data features.
 ```{r ref.label="peng4", echo=FALSE}
 ```
 ]
-
----
-
-class: inverse
-
-## Try yourself .rhs[**3 minutes**]
-
-- Go to RStudio and open `ggplot01.R` in the `exercises` folder.
-
-- If prompted, install packages.
-
-- Run the code to get the plot.
-
-- Use the green tick reaction <img src="graphics/reaction-yes-button.png" /> to let us know when you're done.
-
-- Use the raise hand reaction <img src="graphics/reaction-raise-hand-button.png" /> to ask for help.
 
 ---
 
